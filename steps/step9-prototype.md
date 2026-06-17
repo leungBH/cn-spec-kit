@@ -1,4 +1,4 @@
-# Step 8: 页面原型 (prototype)
+# Step 9: 页面原型 (prototype)
 
 读取页面规格模板（按行业/全局两级覆盖查找）：
 - 命中行业时 `presets/<industry>/page-spec.md`
@@ -14,7 +14,7 @@
 
 ## 🚨 设计硬性约束（违反必须重做，不允许"先这样"）
 
-> **本章节是 Step 8 最高优先级规则**，任何"内部门禁通过 + 外部评审通过 + 人类确认"的组合都不能豁免本章约束。
+> **本章节是 Step 9 最高优先级规则**，任何"内部门禁通过 + 外部评审通过 + 人类确认"的组合都不能豁免本章约束。
 > 内部门禁 checklist 必须逐条核验本章所有条款。
 
 ### 1. 公共框架强制约束（每个原型页必须有）
@@ -702,7 +702,7 @@ document.querySelectorAll('th.sortable').forEach(th => {
 
 ---
 
-## Step 8 内部门禁 Checklist（升级版）
+## Step 9 内部门禁 Checklist（升级版）
 
 完成 HTML 原型后，**必须**逐条核验：
 
@@ -745,7 +745,7 @@ document.querySelectorAll('th.sortable').forEach(th => {
 
 ---
 
-## 人类QA确认（Step 8 必走门）
+## 人类QA确认（Step 9 必走门）
 
 **完成内部门禁 + 外部评审后，必须暂停等待人类确认。**
 
@@ -756,7 +756,7 @@ document.querySelectorAll('th.sortable').forEach(th => {
 - 特别提醒：用户必须**实际打开 HTML 在浏览器中查看效果**，不能只看代码
 
 **用户选择**：
-- 用户选择"确认通过" → 记录确认结果到 `14-review-log.md`，进入 Step 9
+- 用户选择"确认通过" → 记录确认结果到 `14-review-log.md`，进入 Step 10
 - 用户选择"需要修改" → 根据用户反馈修改 `08-page-spec.md` 和对应 HTML 原型，重新执行内部门禁+外部评审+人类确认（不重算重试轮次，人类确认不算在3轮重试内）
 - 用户未回应时 → **不能自动进入下一步**，必须等待
 

@@ -20,7 +20,7 @@ description: 面向中国 ToB 软件产品团队的 Agent-Ready 产品规格生�
 1. **步骤完整性门禁**：内部 checklist 覆盖率检查
 2. **跨步骤一致性检查**：跨产物一致性校验
 3. **外部大模型评审**：调用外部 LLM 以**产品设计合理性**视角独立评审，主动发现问题、质疑设计缺陷、驱动迭代，而非仅做完整性打分
-4. **人类QA确认门**（仅 Step 4.5 和 Step 8）：三层自动化检查通过后，暂停等待人类确认产物质量后才进入下一步
+4. **人类QA确认门**（仅 Step 5 和 Step 9）：三层自动化检查通过后，暂停等待人类确认产物质量后才进入下一步
 
 门禁通过后才进入下一步，未通过则回到本步修补。
 
@@ -43,17 +43,18 @@ description: 面向中国 ToB 软件产品团队的 Agent-Ready 产品规格生�
 
 | Step | 产物 | Checklist |
 |------|------|-----------|
+| Step 1 | 00-brief.md | 内联检查（输入质量判断） |
 | Step 2 | 01-discovery.md | 内联检查（7维度覆盖） |
 | Step 3 | 02-competitive-research.md | 内联检查（3竞品+5功能点） |
 | Step 4 | 01-discovery.md 追问补充 | 阻塞性维度必须明确（审批流+权限层级） |
-| Step 4.5 | 03-requirement.md | checklists/requirement-checklist.md |
-| Step 5 | 04-prd.md | checklists/prd-checklist.md |
-| Step 6 | 05-scope-selection.md | 用户确认即通过 |
-| Step 7 | 06-dependency-dag.md + 07-business-flow.md | 内联检查（DAG覆盖选定模块+每模块4要素） |
-| Step 8 | 08-page-spec.md + HTML | 内联检查（12规格要素） |
-| Step 9 | 10-permission-matrix.md | checklists/permission-checklist.md |
-| Step 10 | 11-acceptance.md | checklists/acceptance-checklist.md |
-| Step 11 | 12-dev-tasks.md + 13-traceability | 内联检查（4类任务完整+追踪全覆盖） |
+| Step 5 | 03-requirement.md | checklists/requirement-checklist.md |
+| Step 6 | 04-prd.md | checklists/prd-checklist.md |
+| Step 7 | 05-scope-selection.md | 用户确认即通过 |
+| Step 8 | 06-dependency-dag.md + 07-business-flow.md | 内联检查（DAG覆盖选定模块+每模块4要素） |
+| Step 9 | 08-page-spec.md + HTML | 内联检查（12规格要素） |
+| Step 10 | 10-permission-matrix.md | checklists/permission-checklist.md |
+| Step 11 | 11-acceptance.md | checklists/acceptance-checklist.md |
+| Step 12 | 12-dev-tasks.md + 13-traceability | 内联检查（4类任务完整+追踪全覆盖） |
 
 ### 第二层：跨步骤一致性检查
 
@@ -61,15 +62,15 @@ description: 面向中国 ToB 软件产品团队的 Agent-Ready 产品规格生�
 
 | 检查时机 | 检查内容 | 严重程度 |
 |----------|----------|----------|
-| Step 4.5 后 | 需求文档中的角色列表 ↔ discovery 中的干系人 | 🟡 警告 |
-| Step 4.5 后 | 需求文档中的验收指标 ↔ discovery 中的成功指标 | 🔴 阻塞 |
-| Step 8 后 | 页面规格中的状态名 ↔ 业务流程中的状态定义 | 🔴 阻塞 |
-| Step 8 后 | DAG 依赖关系 ↔ 页面跳转关系 | 🟡 警告 |
-| Step 9 后 | 权限矩阵中的操作 ↔ 页面规格中的按钮操作 | 🔴 阻塞 |
-| Step 9 后 | 权限矩阵中的角色 ↔ PRD 角色定义 | 🟡 警告 |
-| Step 10 后 | 验收标准中的场景 ↔ PRD 业务场景 | 🔴 阻塞 |
-| Step 11 后 | 研发任务中的 API ↔ 页面规格中的字段和操作 | 🟡 警告 |
-| Step 11 后 | 研发任务构建顺序 ↔ DAG 构建顺序建议 | 🟡 警告 |
+| Step 5 后 | 需求文档中的角色列表 ↔ discovery 中的干系人 | 🟡 警告 |
+| Step 5 后 | 需求文档中的验收指标 ↔ discovery 中的成功指标 | 🔴 阻塞 |
+| Step 9 后 | 页面规格中的状态名 ↔ 业务流程中的状态定义 | 🔴 阻塞 |
+| Step 9 后 | DAG 依赖关系 ↔ 页面跳转关系 | 🟡 警告 |
+| Step 10 后 | 权限矩阵中的操作 ↔ 页面规格中的按钮操作 | 🔴 阻塞 |
+| Step 10 后 | 权限矩阵中的角色 ↔ PRD 角色定义 | 🟡 警告 |
+| Step 11 后 | 验收标准中的场景 ↔ PRD 业务场景 | 🔴 阻塞 |
+| Step 12 后 | 研发任务中的 API ↔ 页面规格中的字段和操作 | 🟡 警告 |
+| Step 12 后 | 研发任务构建顺序 ↔ DAG 构建顺序建议 | 🟡 警告 |
 
 🔴 阻塞级不一致必须修复后才能继续；🟡 警告级列出差异供用户确认。
 
@@ -95,14 +96,14 @@ description: 面向中国 ToB 软件产品团队的 Agent-Ready 产品规格生�
 | Step 2 | 01-discovery.md | 角色识别遗漏？场景覆盖偏窄？成功指标可量化？ |
 | Step 3 | 02-competitive-research.md | 借鉴功能与客户场景匹配？差距分析过于乐观？ |
 | Step 4 | 01-discovery.md 追问补充 | 审批/权限答案真正解决问题？默认假设有二义性？ |
-| Step 4.5 | 03-requirement.md | 需求描述具体到字段级？验收指标可测试？裁剪遗漏关键需求？ |
-| Step 5 | 04-prd.md | 功能优先级合理？P0构成最小闭环？模块边界清晰？ |
-| Step 6 | 05-scope-selection.md | **无需外部评审**（用户手动确认） |
-| Step 7 | 06+07 | DAG遗漏冗余？审批流死锁？状态定义歧义？ |
-| Step 8 | 08-page-spec.md | 布局符合操作习惯？筛选覆盖实际查询？角色视图遗漏差异？ |
-| Step 9 | 10-permission-matrix.md | 权限死角？数据隔离漏洞？审批权限覆盖所有层级？ |
-| Step 10 | 11-acceptance.md | 验收覆盖真实业务分支？边界条件遗漏？权限验收真验证了隔离？ |
-| Step 11 | 12+13 | 任务粒度适中？依赖反映技术依赖？追踪矩阵无断链？ |
+| Step 5 | 03-requirement.md | 需求描述具体到字段级？验收指标可测试？裁剪遗漏关键需求？ |
+| Step 6 | 04-prd.md | 功能优先级合理？P0构成最小闭环？模块边界清晰？ |
+| Step 7 | 05-scope-selection.md | **无需外部评审**（用户手动确认） |
+| Step 8 | 06+07 | DAG遗漏冗余？审批流死锁？状态定义歧义？ |
+| Step 9 | 08-page-spec.md | 布局符合操作习惯？筛选覆盖实际查询？角色视图遗漏差异？ |
+| Step 10 | 10-permission-matrix.md | 权限死角？数据隔离漏洞？审批权限覆盖所有层级？ |
+| Step 11 | 11-acceptance.md | 验收覆盖真实业务分支？边界条件遗漏？权限验收真验证了隔离？ |
+| Step 12 | 12+13 | 任务粒度适中？依赖反映技术依赖？追踪矩阵无断链？ |
 
 **通过标准**：✅总分 ≥ 75 且无🔴严重问题；⚠️总分 ≥ 75 但有≤1个🔴严重问题可快速修复；❌总分 < 75 或🔴严重问题 ≥ 2个
 **不通过**：根据评审意见优化产物，最多重试 3 轮
@@ -114,9 +115,9 @@ description: 面向中国 ToB 软件产品团队的 Agent-Ready 产品规格生�
 - 1 个评审员：该评审员结果决定是否通过
 - 2+ 个评审员：严格多数通过（>50%通过才视为通过），且任一评审员发现🔴严重问题时必须人类确认
 
-### 第四层：人类QA确认门（仅 Step 4.5 和 Step 8）
+### 第四层：人类QA确认门（仅 Step 5 和 Step 9）
 
-**Step 4.5（需求文档）和 Step 8（页面原型）** 在三层自动化检查全部通过后，必须暂停等待人类确认，不能自动进入下一步。这两个步骤的产物直接影响后续所有设计决策，需要人类从业务真实性和交互体验角度做最终把关。
+**Step 5（需求文档）和 Step 9（页面原型）** 在三层自动化检查全部通过后，必须暂停等待人类确认，不能自动进入下一步。这两个步骤的产物直接影响后续所有设计决策，需要人类从业务真实性和交互体验角度做最终把关。
 
 **确认流程**：
 
@@ -134,10 +135,10 @@ description: 面向中国 ToB 软件产品团队的 Agent-Ready 产品规格生�
 
 ---
 
-## 🚨 Step 8（页面原型）硬性约束速查（一行不能漏）
+## 🚨 Step 9（页面原型）硬性约束速查（一行不能漏）
 
 > **本章节是整个 skill 中最高频踩坑的章节，单独提炼到这里便于 LLM 在生成 HTML 时快速对照。**
-> 详细规则见 `steps/step8-prototype.md`；本章节是「最少必要规则」。
+> 详细规则见 `steps/step9-prototype.md`；本章节是「最少必要规则」。
 
 ### 8 个不可违反的硬性约束
 
@@ -155,7 +156,7 @@ description: 面向中国 ToB 软件产品团队的 Agent-Ready 产品规格生�
 ### 标准模板与参考
 
 - **最小标准模板**（生成新页面时直接模仿它）：`references/prototype-minimal-template.html`
-- **标准 CSS 变量与组件类名**：见 `steps/step8-prototype.md` 的「视觉规范」章节（唯一权威来源）
+- **标准 CSS 变量与组件类名**：见 `steps/step9-prototype.md` 的「视觉规范」章节（唯一权威来源）
 - **通用交互脚本**（tab 切换 / 协议标签 / 抽屉 / 排序 / Toast）：部署到 `prototypes/common.js`，所有原型页必须引用
 
 ### LLM 生成 HTML 后的 8 项自检（每次输出前必过）
@@ -205,7 +206,7 @@ description: 面向中国 ToB 软件产品团队的 Agent-Ready 产品规格生�
 |--------|------|----------|
 | `requirement-sdd` | AI SDD 标准化需求文档 | 面向 AI 辅助开发环境，按数据/流程/功能开发分类，字段级可追溯 |
 
-Step 4.5 会自动从 `templates/index.md` 加载模板清单，让用户选择。
+Step 5 会自动从 `templates/index.md` 加载模板清单，让用户选择。
 
 ---
 
@@ -217,8 +218,8 @@ Step 4.5 会自动从 `templates/index.md` 加载模板清单，让用户选择�
 |------|--------|------|
 | Step 3 竞品调研 | 多角度搜索 | 5+不同关键词同时搜索，每个搜索一个 Agent |
 | Step 3 竞品调研 | 深度分析 | 对多个竞品同时 WebFetch 抓取分析 |
-| Step 8 页面原型 | HTML生成 | 多个角色视图入口同时生成（CSS 变量体系，每个角色一个 Agent） |
-| Step 11 研发任务 | FE/BE/TEST | 前端、后端、测试三类任务同时拆解 |
+| Step 9 页面原型 | HTML生成 | 多个角色视图入口同时生成（CSS 变量体系，每个角色一个 Agent） |
+| Step 12 研发任务 | FE/BE/TEST | 前端、后端、测试三类任务同时拆解 |
 | 外部评审 | 多评审员 | 多个外部评审员同时调用评审（如注册了 2+ 个评审员） |
 
 使用并行工具调用或多个 Agent 同时执行。其余步骤顺序执行。
@@ -235,14 +236,14 @@ Step 4.5 会自动从 `templates/index.md` 加载模板清单，让用户选择�
 | 2 需求发现 | steps/step2-discover.md | 00-brief.md + 01-discovery.md | 7维度覆盖 + 外部评审 |
 | 3 竞品调研 | steps/step3-research.md | 02-competitive-research.md | **并行搜索+深度分析** + 外部评审 |
 | 4 需求追问 | steps/step4-clarify.md | discovery追问补充 | **阻塞性澄清门** + 外部评审 |
-| 4.5 模板选择与需求文档 | steps/step4.5-requirement.md | 03-requirement.md | **用户选模板，生成需求文档** + 外部评审 |
-| 5 PRD | steps/step5-prd.md | 04-prd.md | 模板覆盖生效 + 外部评审 |
-| 6 开发范围 | steps/step6-scope.md | 05-scope-selection.md | 用户选择P0/P0+P1/全量（**无外部评审**） |
-| 7 依赖DAG+流程 | steps/step7-flow.md | 06-dependency-dag.md + 07-business-flow.md | **功能依赖DAG** + 外部评审 |
-| 8 页面原型 | steps/step8-prototype.md | 08-page-spec.md + 09-html-prototype/ | **并行生成HTML** + 外部评审 |
-| 9 权限矩阵 | steps/step9-permission.md | 10-permission-matrix.md | 模板覆盖生效 + 外部评审 |
-| 10 验收标准 | steps/step10-acceptance.md | 11-acceptance.md | 覆盖选定优先级 + 外部评审 |
-| 11 研发任务 | steps/step11-tasks.md | 12-dev-tasks.md + 13-traceability-matrix.md | **并行拆解FE/BE/TEST** + 外部评审 |
+| 5 模板选择与需求文档 | steps/step5-requirement.md | 03-requirement.md | **用户选模板，生成需求文档** + 外部评审 |
+| 6 PRD | steps/step6-prd.md | 04-prd.md | 模板覆盖生效 + 外部评审 |
+| 7 开发范围 | steps/step7-scope.md | 05-scope-selection.md | 用户选择P0/P0+P1/全量（**无外部评审**） |
+| 8 依赖DAG+流程 | steps/step8-flow.md | 06-dependency-dag.md + 07-business-flow.md | **功能依赖DAG** + 外部评审 |
+| 9 页面原型 | steps/step9-prototype.md | 08-page-spec.md + 09-html-prototype/ | **并行生成HTML** + 外部评审 |
+| 10 权限矩阵 | steps/step10-permission.md | 10-permission-matrix.md | 模板覆盖生效 + 外部评审 |
+| 11 验收标准 | steps/step11-acceptance.md | 11-acceptance.md | 覆盖选定优先级 + 外部评审 |
+| 12 研发任务 | steps/step12-tasks.md | 12-dev-tasks.md + 13-traceability-matrix.md | **并行拆解FE/BE/TEST** + 外部评审 |
 
 **新增机制文件**：
 
@@ -283,7 +284,7 @@ specs/<序号-功能名>/
 
 ## 使用模式
 
-1. **完整流程**：输入一句话需求，自动走完 11 个步骤（推荐）
+1. **完整流程**：输入一句话需求，自动走完 12 个步骤（推荐）
 2. **单步执行**：用户只想要某个产物（如"只做PRD""只做需求文档""只做权限矩阵"），读取已有前置文档，跳到对应步骤执行
 3. **增量补充**：已有部分文档，只需补充后续产物
 
@@ -302,7 +303,7 @@ specs/<序号-功能名>/
 
 **功能模块**: <功能名>
 **开发范围**: <用户选择的范围，如 P0+P1>
-**需求文档模板**: <Step 4.5 选择的模板ID>
+**需求文档模板**: <Step 5 选择的模板ID>
 **产物目录**: specs/<序号-功能名>/
 **外部评审**: <已注册评审员数量>位评审员，<通过/跳过>
 
@@ -338,12 +339,12 @@ specs/<序号-功能名>/
 ## Guardrails
 
 - 每个步骤生成产物后，必须执行质量检查（内部门禁+一致性检查+外部评审），未通过不能进入下一步
-- **Step 4.5（需求文档）和 Step 8（页面原型）在三层自动化检查通过后，必须暂停等待人类QA确认才能进入下一步**，不能自动跳过
+- **Step 5（需求文档）和 Step 9（页面原型）在三层自动化检查通过后，必须暂停等待人类QA确认才能进入下一步**，不能自动跳过
 - 外部评审以产品设计合理性为核心，评审员必须主动发现问题、质疑设计缺陷、驱动迭代，不能只做完整性打分
 - 阻塞性维度（审批流程、权限层级）必须明确回答，不能跳过或假设
 - 追问非阻塞性维度不要超过 3 轮，宁可做合理假设也不要无限追问
 - 竞品调研至少搜索 5 个不同关键词，至少覆盖 3 个竞品
-- 模板选择（Step 4.5）必须由用户确认，不能自动决定
+- 模板选择（Step 5）必须由用户确认，不能自动决定
 - 开发范围选择必须由用户确认，不能自动决定
 - 选定范围后的所有产物只覆盖选定优先级，未选定的简要标注"二期"
 - HTML 原型为所有选定优先级的页面生成，不做部分跳过

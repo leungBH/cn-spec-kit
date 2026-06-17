@@ -1,11 +1,11 @@
-# Step 5: PRD 生成 (prd)
+# Step 6: PRD 生成 (prd)
 
 ## 执行步骤
 
 1. 读取 PRD 模板（按覆盖优先级查找）：
       - 再查 `presets/<industry>/prd.md`（行业预设，行业名从 discovery 中获取）
    - 最后 `templates/prd.md`（全局默认）
-2. 读取 `00-brief.md`（原始需求）、`01-discovery.md`（含追问补充）、`02-competitive-research.md` 和 `03-requirement.md`（Step 4.5 生成的需求文档）作为输入
+2. 读取 `00-brief.md`（原始需求）、`01-discovery.md`（含追问补充）、`02-competitive-research.md` 和 `03-requirement.md`（Step 5 生成的需求文档）作为输入
 3. 读取 `checklists/prd-checklist.md` 了解质量标准
 4. 生成 `04-prd.md`，写入 `specs/<序号-功能名>/`
 
@@ -41,4 +41,4 @@
 - 不通过：根据评审意见修补 PRD，最多重试 3 轮
 - 评审结果记录到 `14-review-log.md`
 
-外部评审通过后，才能进入 Step 6。
+外部评审通过后，才能进入 Step 7。

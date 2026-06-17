@@ -1,4 +1,4 @@
-# Step 10: 验收标准 (acceptance)
+# Step 11: 验收标准 (acceptance)
 
 读取验收模板（按覆盖优先级查找）：
 - 再查 `presets/<industry>/acceptance-criteria.md`
@@ -49,4 +49,4 @@
 - 不通过：根据评审意见补充验收标准，最多重试 3 轮
 - 评审结果记录到 `14-review-log.md`
 
-外部评审通过后，才能进入 Step 11。
+外部评审通过后，才能进入 Step 12。

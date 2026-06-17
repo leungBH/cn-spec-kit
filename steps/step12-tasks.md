@@ -1,4 +1,4 @@
-# Step 11: 研发任务 (tasks)
+# Step 12: 研发任务 (tasks)
 
 读取研发任务模板（按覆盖优先级查找）：
 - 再查 `presets/<industry>/dev-tasks.md`

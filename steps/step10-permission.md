@@ -1,4 +1,4 @@
-# Step 9: 权限矩阵 (permission)
+# Step 10: 权限矩阵 (permission)
 
 读取权限模板（按覆盖优先级查找）：
 - 再查 `presets/<industry>/permission-matrix.md`
@@ -46,4 +46,4 @@
 - 不通过：根据评审意见修补权限矩阵，最多重试 3 轮
 - 评审结果记录到 `14-review-log.md`
 
-外部评审通过后，才能进入 Step 10。
+外部评审通过后，才能进入 Step 11。

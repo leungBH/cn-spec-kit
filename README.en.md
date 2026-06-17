@@ -15,18 +15,18 @@ Chinese ToB software teams typically face four pain points in the product spec s
 - **Hard for AI to consume**: existing documents aren't structured down to the field level, so AI coding agents don't know how to act on them.
 - **Hard to control quality**: without cross-artifact consistency checks, design gaps usually surface late in development.
 
-**cn-spec-kit** breaks this work into an 11-step standard pipeline. Each step has automated quality gates, and the **final output is an AI-friendly, structured document chain that can be fed directly into an AI coding agent**.
+**cn-spec-kit** breaks this work into an 12-step standard pipeline. Each step has automated quality gates, and the **final output is an AI-friendly, structured document chain that can be fed directly into an AI coding agent**.
 
 ---
 
 ## Core Features
 
-- **11-step standard pipeline**: input → discovery → competitive research → clarification → template selection & requirement → PRD → scope → dependency DAG → business flow → page prototype → permission matrix → acceptance criteria → dev tasks.
+- **12-step standard pipeline**: input → discovery → competitive research → clarification → template selection & requirement → PRD → scope → dependency DAG → business flow → page prototype → permission matrix → acceptance criteria → dev tasks.
 - **Three-layer automated quality gates**:
   1. **Step completeness gate** — checklist coverage ≥ 90% per step.
   2. **Cross-step consistency check** — roles, states, actions, and acceptance scenarios stay consistent across artifacts.
   3. **External LLM review** — a 10+ year ToB expert's perspective that actively questions design flaws.
-- **Human QA confirmation gate**: Step 4.5 (requirement) and Step 8 (page prototype) require human confirmation before continuing.
+- **Human QA confirmation gate**: Step 5 (requirement) and Step 8 (page prototype) require human confirmation before continuing.
 - **Template override mechanism**: two-layer override (industry-level `presets/` + global default `templates/`).
 - **Parallel agent strategy**: competitive research, HTML prototype generation, and dev task breakdown all support multi-agent parallelism.
 - **Domain knowledge baked in**: 3 industry presets (manufacturing / fintech / education) with customized templates.
@@ -55,7 +55,7 @@ Chinese ToB software teams typically face four pain points in the product spec s
    the customer wants contract drafting, approval, archiving, ledger, and renewal reminders.
    ```
 
-3. The AI Agent runs the 11-step pipeline automatically, producing Markdown documents at each step and running quality gates.
+3. The AI Agent runs the 12-step pipeline automatically, producing Markdown documents at each step and running quality gates.
 
 ### Use a single step in isolation
 
@@ -103,8 +103,8 @@ cn-spec-kit/
 │   ├── permission-checklist.md
 │   ├── prd-checklist.md
 │   └── requirement-checklist.md
-├── steps/                         # 11-step execution logic
-│   ├── step1-input.md ~ step11-tasks.md
+├── steps/                         # 12-step execution logic
+│   ├── step1-input.md ~ step12-tasks.md
 │   ├── consistency-checks.md      # Cross-step consistency rules
 │   └── external-review.md         # External LLM review mechanism
 ├── templates/                     # Global default templates
@@ -161,7 +161,7 @@ cn-spec-kit supports plugging in an external LLM as a reviewer that audits desig
 
 ## Roadmap
 
-- [x] 11-step main pipeline + two-layer quality gates
+- [x] 12-step main pipeline + two-layer quality gates
 - [x] External LLM review mechanism
 - [x] Template override (industry / global)
 - [x] Industry presets (manufacturing / fintech / education)
