@@ -1,9 +1,8 @@
 # Step 8: 页面原型 (prototype)
 
-读取页面规格模板（按覆盖优先级查找）：
-- 先查 `overrides/page-spec.md`
-- 再查 `presets/<industry>/page-spec.md`
-- 最后 `templates/page-spec.md`
+读取页面规格模板（按行业/全局两级覆盖查找）：
+- 命中行业时 `presets/<industry>/page-spec.md`
+- 否则 `templates/page-spec.md`
 
 读取 `04-prd.md`、`07-business-flow.md`、`06-dependency-dag.md` 和 `05-scope-selection.md` 获取功能、流程和依赖信息。
 
@@ -186,7 +185,7 @@
 
 ### 6. 业务组件标准库（必须复用，不允许自由发挥）
 
-> 所有业务特殊组件**必须**使用以下标准类名，从 `references/prototype-style-reference.html` 的 common.css 复用。
+> 所有业务特殊组件**必须**使用以下标准类名（CSS 变量见下方 `:root`）。
 > **禁止**自创类名（如 `.my-diag`、`.face-grid`、`.custom-topo` 等），避免风格漂移。
 
 | 业务场景 | 强制类名 | 用途与结构 |
@@ -363,7 +362,7 @@ AI 与高可用（5）
 
 ## 视觉规范（必须严格遵守）
 
-> 以下 CSS 变量和组件类名是硬性标准，不允许自由发挥替代。完整 CSS 定义见 `references/prototype-style-reference.html`（含完整组件样式+交互JS+示例数据绑定），生成时**必须**从该文件复制 `:root` 变量和所有组件 CSS 规则。下文列出的是关键摘要，供执行参考；如 reference 文件有更新，以 reference 为准。
+> 以下 CSS 变量和组件类名是硬性标准，不允许自由发挥替代。下方 `:root` 块是唯一权威来源，所有原型必须内联此段；如需扩展组件，请在本节追加。
 
 ### CSS 变量体系（`:root` 必须定义）
 

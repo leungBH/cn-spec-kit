@@ -9,7 +9,7 @@
 
 | 字段 | 含义 |
 |------|------|
-| `id` | 模板唯一标识，对应文件名（不含 `.md` 后缀），也是 `overrides/<id>.md` 的覆盖文件名 |
+| `id` | 模板唯一标识，对应文件名（不含 `.md` 后缀），也是 `presets/<industry>/<id>.md` 的覆盖文件名 |
 | `name` | 模板中文名，向用户展示时使用 |
 | `description` | 一句话说明模板适用场景 |
 | `chapters` | 模板主要章节（用于向用户预览模板结构） |
@@ -20,19 +20,6 @@
 ---
 
 ## 模板列表
-
-### 1. requirement-presale
-
-| 字段 | 内容 |
-|------|------|
-| 模板名 | AI 售前需求文档（合并版） |
-| 适用场景 | AI 售前场景下"客户需求到演示 Demo"类的综合需求文档，覆盖功能/大屏/工单流程/事件场景 4 大类 |
-| 适用类型 | 纯功能类、大屏类、工单流程类、事件场景类、综合类 |
-| 适用行业 | *（通用） |
-| 章节预览 | 通用部分（必填）→ 系统总体架构 → 系统能力需求 → 环境需求 → 功能业务需求 → 大屏类需求（按需）→ 工单流程类需求（按需）→ 事件场景类需求（按需）→ 接口需求 → 部署要求 → 附录 |
-| 源文件 | `templates/requirement-presale.md` |
-| 产物文件 | `specs/<序号-功能名>/03-requirement.md` |
-| 模板覆盖 | 放入 `overrides/requirement-presale.md` 即可覆盖默认模板 |
 
 ### 2. requirement-sdd
 
@@ -45,7 +32,7 @@
 | 章节预览 | 需求背景（基础信息/背景价值/约束边界/验收标准/变更追溯）→ 数据开发需求（按需）→ 流程开发需求（按需）→ 功能开发需求（按需） |
 | 源文件 | `templates/requirement-sdd.md` |
 | 产物文件 | `specs/<序号-功能名>/03-requirement.md` |
-| 模板覆盖 | 放入 `overrides/requirement-sdd.md` 即可覆盖默认模板 |
+| 模板覆盖 | 放入 `presets/<industry>/requirement-sdd.md` 即可覆盖默认模板 |
 
 ---
 
@@ -54,9 +41,8 @@
 Step 4.5 在加载模板时按以下顺序查找（高优先级覆盖低优先级）：
 
 ```
-1. overrides/<id>.md              项目级覆盖
-2. presets/<industry>/<id>.md     行业预设
-3. templates/<id>.md              全局默认
+1. presets/<industry>/<id>.md     行业预设
+2. templates/<id>.md              全局默认
 ```
 
 如果用户已选择行业（在 Step 2 需求发现中识别），则先查 `presets/<industry>/`；否则直接走 `templates/`。
@@ -75,7 +61,5 @@ Step 4.5 在加载模板时按以下顺序查找（高优先级覆盖低优先�
 
 | 条件 | 推荐模板 |
 |------|----------|
-| Step 1 输入中包含"售前""Demo""投标""方案"等关键词 | `requirement-presale` |
 | Step 1 输入中包含"SDD""AI开发""数据开发""AI辅助"等关键词 | `requirement-sdd` |
-| Step 2 行业识别为"通信运营商"或包含"网络监控"业务条线 | `requirement-presale` |
 | 其他 | 询问用户选择 |

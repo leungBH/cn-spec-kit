@@ -27,7 +27,7 @@
   2. 跨步骤一致性检查（角色、状态、操作、验收场景在产物间保持一致）
   3. 外部大模型评审（10 年+ ToB 专家视角，主动质疑设计缺陷）
 - **人类QA确认门**：Step 4.5（需求文档）和 Step 8（页面原型）必须人类确认才能继续
-- **模板覆盖机制**：支持项目级（`overrides/`）+ 行业级（`presets/`）+ 全局默认（`templates/`）三层覆盖
+- **模板覆盖机制**：支持行业级（`presets/`）+ 全局默认（`templates/`）两层覆盖
 - **并行 Agent 策略**：竞品调研、HTML 原型生成、研发任务拆解等环节支持多 Agent 并行
 - **领域知识沉淀**：内置 3 个行业预设（制造/金融/教育），按行业加载定制模板
 
@@ -110,8 +110,7 @@ cn-spec-kit/
 │   ├── prd.md / business-flow.md / page-spec.md
 │   ├── permission-matrix.md / acceptance-criteria.md
 │   ├── dev-tasks.md / traceability-matrix.md
-│   ├── requirement-presale.md     # 需求文档模板
-│   ├── requirement-sdd.md         # 需求文档模板
+│   ├── requirement-sdd.md         # 需求文档模板（SDD 风格）
 │   ├── data-dictionary.md         # 可选补充：数据字典
 │   ├── non-functional.md          # 可选补充：非功能需求
 │   ├── review-log.md              # 评审日志模板
@@ -120,15 +119,12 @@ cn-spec-kit/
 │   ├── manufacturing/             # 制造业
 │   ├── fintech/                   # 金融业
 │   └── education/                 # 教育业
-├── overrides/                     # 项目级模板覆盖（最高优先级）
-│   └── README.md
 ├── references/                    # 参考资料与工具
 │   ├── external-llm-config.md     # 外部大模型配置说明
 │   ├── .cn-spec-kit-llm.example.json
 │   ├── industry-templates.md
 │   ├── permission-patterns.md
 │   ├── tob-patterns.md
-│   ├── prototype-style-reference.html
 │   ├── prototype-minimal-template.html
 │   └── prototype-validator.py     # HTML 原型 8 项硬性约束自检
 ├── LICENSE
@@ -142,13 +138,11 @@ cn-spec-kit/
 模板读取按优先级顺序查找，高优先级覆盖低优先级：
 
 ```
-1. 项目级覆盖    → overrides/<template>.md
-2. 行业预设      → presets/<industry>/<template>.md
-3. 全局默认      → templates/<template>.md
+1. 行业预设      → presets/<industry>/<template>.md
+2. 全局默认      → templates/<template>.md
 ```
 
 **使用场景**：
-- 你所在团队有特殊定制 → 把定制模板放进 `overrides/`
 - 你在做特定行业（制造/金融/教育）→ 自动加载行业预设
 - 默认模板始终兜底，开箱即用
 
@@ -166,9 +160,9 @@ cn-spec-kit 支持接入外部 LLM 作为评审员，以 10 年+ ToB 专家视�
 
 ## 路线图
 
-- [x] 11 步主流程 + 三层质量门禁
+- [x] 11 步主流程 + 两层质量门禁
 - [x] 外部大模型评审机制
-- [x] 模板覆盖机制（项目/行业/全局）
+- [x] 模板覆盖机制（行业/全局）
 - [x] 行业预设（制造/金融/教育）
 - [x] HTML 原型 8 项硬性约束 + 自检脚本
 - [ ] 更多行业预设（医疗、零售、政务…）
@@ -192,4 +186,4 @@ cn-spec-kit 支持接入外部 LLM 作为评审员，以 10 年+ ToB 专家视�
 
 ## 协议
 
-[MIT License](./LICENSE) · Copyright (c) 2026 cn-spec-kit Contributors
+[MIT License](./LICENSE) · Copyright (c) 2026 Jeremy

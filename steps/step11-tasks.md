@@ -1,7 +1,6 @@
 # Step 11: 研发任务 (tasks)
 
 读取研发任务模板（按覆盖优先级查找）：
-- 先查 `overrides/dev-tasks.md`
 - 再查 `presets/<industry>/dev-tasks.md`
 - 最后 `templates/dev-tasks.md`
 

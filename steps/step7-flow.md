@@ -47,7 +47,6 @@
 ## Part B: 业务流程
 
 读取业务流程模板（按覆盖优先级查找）：
-- 先查 `overrides/business-flow.md`
 - 再查 `presets/<industry>/business-flow.md`
 - 最后 `templates/business-flow.md`
 

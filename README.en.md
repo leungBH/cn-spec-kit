@@ -27,7 +27,7 @@ Chinese ToB software teams typically face four pain points in the product spec s
   2. **Cross-step consistency check** — roles, states, actions, and acceptance scenarios stay consistent across artifacts.
   3. **External LLM review** — a 10+ year ToB expert's perspective that actively questions design flaws.
 - **Human QA confirmation gate**: Step 4.5 (requirement) and Step 8 (page prototype) require human confirmation before continuing.
-- **Template override mechanism**: three-layer override (project-level `overrides/` + industry-level `presets/` + global default `templates/`).
+- **Template override mechanism**: two-layer override (industry-level `presets/` + global default `templates/`).
 - **Parallel agent strategy**: competitive research, HTML prototype generation, and dev task breakdown all support multi-agent parallelism.
 - **Domain knowledge baked in**: 3 industry presets (manufacturing / fintech / education) with customized templates.
 
@@ -111,8 +111,7 @@ cn-spec-kit/
 │   ├── prd.md / business-flow.md / page-spec.md
 │   ├── permission-matrix.md / acceptance-criteria.md
 │   ├── dev-tasks.md / traceability-matrix.md
-│   ├── requirement-presale.md     # Requirement doc template
-│   ├── requirement-sdd.md         # Requirement doc template
+│   ├── requirement-sdd.md         # Requirement doc template (SDD style)
 │   ├── data-dictionary.md         # Optional: data dictionary
 │   ├── non-functional.md          # Optional: non-functional spec
 │   ├── review-log.md              # Review log template
@@ -121,15 +120,12 @@ cn-spec-kit/
 │   ├── manufacturing/             # Manufacturing
 │   ├── fintech/                   # Financial services
 │   └── education/                 # Education
-├── overrides/                     # Project-level overrides (highest priority)
-│   └── README.md
 ├── references/                    # Reference materials & tools
 │   ├── external-llm-config.md     # External LLM configuration
 │   ├── .cn-spec-kit-llm.example.json
 │   ├── industry-templates.md
 │   ├── permission-patterns.md
 │   ├── tob-patterns.md
-│   ├── prototype-style-reference.html
 │   ├── prototype-minimal-template.html
 │   └── prototype-validator.py     # HTML prototype 8 hard-constraint self-check
 ├── LICENSE
@@ -143,13 +139,11 @@ cn-spec-kit/
 Templates are looked up in priority order; higher priority overrides lower:
 
 ```
-1. Project-level  → overrides/<template>.md
-2. Industry-level → presets/<industry>/<template>.md
-3. Global default → templates/<template>.md
+1. Industry-level → presets/<industry>/<template>.md
+2. Global default → templates/<template>.md
 ```
 
 **Use cases**:
-- Your team has custom needs → put customized templates in `overrides/`
 - You're working in a specific industry (manufacturing / fintech / education) → industry presets are loaded automatically
 - Global defaults always work as a fallback — zero-config out of the box
 
@@ -167,9 +161,9 @@ cn-spec-kit supports plugging in an external LLM as a reviewer that audits desig
 
 ## Roadmap
 
-- [x] 11-step main pipeline + three-layer quality gates
+- [x] 11-step main pipeline + two-layer quality gates
 - [x] External LLM review mechanism
-- [x] Template override (project / industry / global)
+- [x] Template override (industry / global)
 - [x] Industry presets (manufacturing / fintech / education)
 - [x] HTML prototype 8 hard-constraints + self-check script
 - [ ] More industry presets (healthcare, retail, government, …)
@@ -193,4 +187,4 @@ Before submitting, please ensure: all artifact files are written in Chinese; dir
 
 ## License
 
-[MIT License](./LICENSE) · Copyright (c) 2026 cn-spec-kit Contributors
+[MIT License](./LICENSE) · Copyright (c) 2026 Jeremy

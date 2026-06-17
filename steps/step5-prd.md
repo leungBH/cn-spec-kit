@@ -3,8 +3,7 @@
 ## 执行步骤
 
 1. 读取 PRD 模板（按覆盖优先级查找）：
-   - 先查 `overrides/prd.md`（项目级覆盖）
-   - 再查 `presets/<industry>/prd.md`（行业预设，行业名从 discovery 中获取）
+      - 再查 `presets/<industry>/prd.md`（行业预设，行业名从 discovery 中获取）
    - 最后 `templates/prd.md`（全局默认）
 2. 读取 `00-brief.md`（原始需求）、`01-discovery.md`（含追问补充）、`02-competitive-research.md` 和 `03-requirement.md`（Step 4.5 生成的需求文档）作为输入
 3. 读取 `checklists/prd-checklist.md` 了解质量标准

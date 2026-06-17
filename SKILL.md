@@ -155,7 +155,7 @@ description: 面向中国 ToB 软件产品团队的 Agent-Ready 产品规格生�
 ### 标准模板与参考
 
 - **最小标准模板**（生成新页面时直接模仿它）：`references/prototype-minimal-template.html`
-- **完整样式参考**（CSS 变量体系、组件样式全在这）：`references/prototype-style-reference.html`（自包含单文件，可独立预览）
+- **标准 CSS 变量与组件类名**：见 `steps/step8-prototype.md` 的「视觉规范」章节（唯一权威来源）
 - **通用交互脚本**（tab 切换 / 协议标签 / 抽屉 / 排序 / Toast）：部署到 `prototypes/common.js`，所有原型页必须引用
 
 ### LLM 生成 HTML 后的 8 项自检（每次输出前必过）
@@ -189,13 +189,11 @@ description: 面向中国 ToB 软件产品团队的 Agent-Ready 产品规格生�
 模板读取按优先级顺序查找，高优先级覆盖低优先级。**技能根目录**根据运行环境自动检测：Trae 环境为 `.trae/skills/cn-spec-kit/`，Claude Code 环境为 `.claude/skills/cn-spec-kit/`。
 
 ```
-1. 项目级覆盖    → <技能根>/overrides/<template>.md
-2. 行业预设      → <技能根>/presets/<industry>/<template>.md
-3. 全局默认      → <技能根>/templates/<template>.md
+1. 行业预设      → <技能根>/presets/<industry>/<template>.md
+2. 全局默认      → <技能根>/templates/<template>.md
 ```
 
 **使用方式**：
-- 用户可将自己定制的模板放入 `overrides/` 目录，自动替代默认模板
 - 用户选择行业预设时（Step 2 中识别行业），自动从 `presets/<industry>/` 读取行业定制模板
 - 默认模板始终兜底，无需任何配置即可使用
 
@@ -205,7 +203,6 @@ description: 面向中国 ToB 软件产品团队的 Agent-Ready 产品规格生�
 
 | 模板ID | 名称 | 适用场景 |
 |--------|------|----------|
-| `requirement-presale` | AI 售前需求文档（合并版） | 售前 Demo、综合类需求，覆盖功能/大屏/工单流程/事件场景 4 大类 |
 | `requirement-sdd` | AI SDD 标准化需求文档 | 面向 AI 辅助开发环境，按数据/流程/功能开发分类，字段级可追溯 |
 
 Step 4.5 会自动从 `templates/index.md` 加载模板清单，让用户选择。

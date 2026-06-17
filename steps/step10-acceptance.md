@@ -1,7 +1,6 @@
 # Step 10: 验收标准 (acceptance)
 
 读取验收模板（按覆盖优先级查找）：
-- 先查 `overrides/acceptance-criteria.md`
 - 再查 `presets/<industry>/acceptance-criteria.md`
 - 最后 `templates/acceptance-criteria.md`
 

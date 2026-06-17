@@ -1,7 +1,6 @@
 # Step 9: 权限矩阵 (permission)
 
 读取权限模板（按覆盖优先级查找）：
-- 先查 `overrides/permission-matrix.md`
 - 再查 `presets/<industry>/permission-matrix.md`
 - 最后 `templates/permission-matrix.md`
 
