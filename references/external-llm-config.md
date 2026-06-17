@@ -58,7 +58,7 @@ curl -s -X POST "<url>/chat/completions" \
     {
       "name": "GLM-5.1评审员1",
       "url": "https://token.bayesdl.com/api/maas/v1",
-      "key": "sk-897f460487844814b5f71bf02816be75",
+      "key": "sk-your-api-key-here",
       "model": "glm-5.1"
     }
   ]
@@ -105,20 +105,20 @@ curl -s -X POST "<url>/chat/completions" \
     {
       "name": "GLM-5.1评审员1",
       "url": "https://token.bayesdl.com/api/maas/v1",
-      "key": "sk-897f460487844814b5f71bf02816be75",
+      "key": "sk-your-api-key-here",
       "model": "glm-5.1"
     },
     {
       "name": "GLM-5.1评审员2",
       "url": "https://token.bayesdl.com/api/maas/v1",
-      "key": "sk-7ec4b88276ed4ed6a445c39a64c976e8",
+      "key": "sk-your-second-api-key-here",
       "model": "glm-5.1"
     }
   ]
 }
 ```
 
-多评审员时，每个评审员独立评审，≥50% 通过即视为通过。
+多评审员时，严格多数通过（>50% 通过才视为通过），且任一评审员发现🔴严重问题时必须人类确认。
 
 ---
 

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{页面标题}} - {{产品名}}</title>
+<!-- 🚨 必须同时引用 common.css 和 common.js（顺序固定） -->
+<link rel="stylesheet" href="common.css">
+<script src="common.js"></script>
+<style>
+  /* 仅写本页专属样式（如 .my-thumb 等）；通用样式全部走 common.css */
+  :root{
+    --primary:#1e6fff;
+    --primary-hover:#4080ff;
+    --primary-light:#e8f1ff;
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><span class="dot">V</span>{{产品名}}</div>
+    <nav class="menu">
+      <!-- 🚨 菜单分组 ≤ 6，菜单项 ≤ 25，图标一律方块字符 -->
+      <div class="menu-group-title">工作台</div>
+      <div class="menu-item"><span class="icon">▦</span>概览</div>
+      <div class="menu-item"><span class="icon">◈</span>电子地图</div>
+
+      <div class="menu-group-title">视频接入</div>
+      <div class="menu-item"><span class="icon">▣</span>设备接入</div>
+      <div class="menu-item"><span class="icon">▤</span>资源目录</div>
+      <div class="menu-item"><span class="icon">▶</span>视频播放</div>
+
+      <div class="menu-group-title">视频处理</div>
+      <div class="menu-item"><span class="icon">⊟</span>录像文件</div>
+      <div class="menu-item"><span class="icon">➡</span>流转发</div>
+      <div class="menu-item active"><span class="icon">▥</span>{{当前页}}</div>
+
+      <div class="menu-group-title">策略中心</div>
+      <div class="menu-item"><span class="icon">▧</span>策略列表</div>
+      <div class="menu-item"><span class="icon">▨</span>审批中心</div>
+
+      <div class="menu-group-title">AI 与高可用</div>
+      <div class="menu-item"><span class="icon">▩</span>视频质量诊断</div>
+      <div class="menu-item"><span class="icon">▪</span>人脸识别</div>
+      <div class="menu-item"><span class="icon">▫</span>车辆识别</div>
+      <div class="menu-item"><span class="icon">◌</span>行为分析</div>
+      <div class="menu-item"><span class="icon">◍</span>容灾备份</div>
+
+      <div class="menu-group-title">系统管理</div>
+      <div class="menu-item"><span class="icon">◎</span>租户管理</div>
+      <div class="menu-item"><span class="icon">●</span>角色管理</div>
+      <div class="menu-item"><span class="icon">☰</span>用户组织</div>
+      <div class="menu-item"><span class="icon">⚙</span>系统配置</div>
+      <div class="menu-item"><span class="icon">⌂</span>安全管理</div>
+      <div class="menu-item"><span class="icon">▦</span>API 文档</div>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <header class="header">
+      <div class="crumbs">
+        <span>{{父模块}}</span><span class="sep">/</span>
+        <span class="current">{{当前页}}</span>
+      </div>
+      <div class="user-area">
+        <span>🔔 3</span>
+        <div class="avatar">A</div>
+        <span>admin</span>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <!-- ====== page-head：标题 + 副标题 + 右侧操作区（强制） ====== -->
+      <div class="page-head">
+        <div>
+          <div class="page-title">{{页面标题}}</div>
+          <div class="page-sub">{{一句话说明}}</div>
+        </div>
+        <div class="page-actions">
+          <button class="btn">⤓ 导出</button>
+          <button class="btn btn-primary">+ 新建</button>
+        </div>
+      </div>
+
+      <!-- ====== 4 个统计卡（每个带 .stat-icon，强制） ====== -->
+      <div class="stats">
+        <div class="stat">
+          <div class="label">指标 1</div>
+          <div class="value">1,234</div>
+          <div class="extra">较昨日 <span class="up">+12%</span></div>
+          <div class="stat-icon">▦</div>
+        </div>
+        <div class="stat">
+          <div class="label">指标 2</div>
+          <div class="value">98.6<span class="unit">%</span></div>
+          <div class="extra">达标</div>
+          <div class="stat-icon">▣</div>
+        </div>
+        <div class="stat">
+          <div class="label">指标 3</div>
+          <div class="value">567</div>
+          <div class="extra">较昨日 -3%</div>
+          <div class="stat-icon">▤</div>
+        </div>
+        <div class="stat">
+          <div class="label">指标 4</div>
+          <div class="value">8</div>
+          <div class="extra">运行中 <span class="text-primary">2</span></div>
+          <div class="stat-icon">▶</div>
+        </div>
+      </div>
+
+      <!-- ====== Tabs：复杂页强制 ≥ 3 个子视图 ====== -->
+      <div class="tabs">
+        <div class="tab active" data-tab="view1">子视图 1</div>
+        <div class="tab" data-tab="view2">子视图 2</div>
+        <div class="tab" data-tab="view3">子视图 3</div>
+        <div class="tab" data-tab="view4">子视图 4</div>
+      </div>
+
+      <!-- ====== Tab 1: 表格页（强制 .filter + .table + .pager） ====== -->
+      <section class="tab-pane active" data-pane="view1">
+        <div class="card">
+          <div class="card-body">
+            <div class="filter">
+              <div class="field">
+                <label>查询字段 1</label>
+                <input placeholder="请输入">
+              </div>
+              <div class="field">
+                <label>查询字段 2</label>
+                <select>
+                  <option>全部</option>
+                  <option>选项 A</option>
+                  <option>选项 B</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>时间范围</label>
+                <input type="date">
+              </div>
+              <div class="field">
+                <label>状态</label>
+                <select>
+                  <option>全部</option>
+                  <option>启用</option>
+                  <option>禁用</option>
+                </select>
+              </div>
+              <div class="filter-actions">
+                <button class="btn btn-primary">查询</button>
+                <button class="btn">重置</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>数据列表 <span class="text-sub text-sm" style="font-weight:400">共 X 条</span></h3>
+            <div class="page-actions">
+              <span class="protocol">
+                <span class="protocol-tag active">全部</span>
+                <span class="protocol-tag">类型 A</span>
+                <span class="protocol-tag">类型 B</span>
+              </span>
+              <button class="btn btn-sm">⟳ 刷新</button>
+            </div>
+          </div>
+          <div class="card-body" style="padding:0">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>名称</th>
+                    <th>类型</th>
+                    <th class="sortable">创建时间 <span class="arrow">↓</span></th>
+                    <th class="sortable">状态 <span class="arrow">↓</span></th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>001</td>
+                    <td>示例数据</td>
+                    <td>类型 A</td>
+                    <td>2026-06-12 08:00</td>
+                    <td><span class="tag tag-green">运行中</span></td>
+                    <td><button class="btn-link">查看</button> <button class="btn-link">编辑</button></td>
+                  </tr>
+                  <tr>
+                    <td>002</td>
+                    <td>示例数据</td>
+                    <td>类型 B</td>
+                    <td>2026-06-12 09:00</td>
+                    <td><span class="tag tag-orange">预警</span></td>
+                    <td><button class="btn-link">查看</button> <button class="btn-link">编辑</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pager">
+              <span class="info">共 2 条</span>
+              <div class="pages">
+                <button class="pg">上一页</button>
+                <button class="pg active">1</button>
+                <button class="pg">2</button>
+                <button class="pg">下一页</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== Tab 2: 业务组件示例（.topo / .chart-card / .period-tabs） ====== -->
+      <section class="tab-pane" data-pane="view2">
+        <div class="card">
+          <div class="card-head">
+            <h3>业务视图 2（拓扑 / 图表）</h3>
+            <span class="period-tabs">
+              <span>7 天</span>
+              <span class="active">30 天</span>
+              <span>90 天</span>
+            </span>
+          </div>
+          <div class="card-body">
+            <div class="chart-grid">
+              <div class="chart-card">
+                <div class="chart-card-head">
+                  <span class="chart-card-title">图表标题</span>
+                  <span class="text-sub text-sm">单位</span>
+                </div>
+                <div class="chart-card-body">图表占位（实际项目用 ECharts / Recharts 渲染）</div>
+              </div>
+              <div class="chart-card">
+                <div class="chart-card-head">
+                  <span class="chart-card-title">图表标题</span>
+                  <span class="text-sub text-sm">单位</span>
+                </div>
+                <div class="chart-card-body">图表占位</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3>拓扑视图（.topo 业务组件）</h3></div>
+          <div class="card-body">
+            <div class="topo">
+              <div class="topo-row">
+                <div class="topo-node">
+                  <strong>上级节点 A</strong>
+                  <div class="sub">协议 · IP</div>
+                  <div class="sub"><span class="tag tag-green">在线</span> 100 路</div>
+                </div>
+                <div class="topo-node">
+                  <strong>上级节点 B</strong>
+                  <div class="sub">协议 · IP</div>
+                  <div class="sub"><span class="tag tag-green">在线</span> 200 路</div>
+                </div>
+              </div>
+              <div class="topo-line"></div>
+              <div class="topo-center">↓ 上下级目录推送 ↓</div>
+              <div class="topo-row">
+                <div class="topo-node">
+                  <strong>本级平台</strong>
+                  <div class="sub">本级</div>
+                  <div class="sub"><span class="tag tag-blue">本级</span> 1,820 路</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== Tab 3: 配置 / 表单（.form-grid） ====== -->
+      <section class="tab-pane" data-pane="view3">
+        <div class="card">
+          <div class="card-head"><h3>配置表单（.form-grid 业务组件）</h3></div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="field">
+                <label>字段 1 <span class="text-danger">*</span></label>
+                <input placeholder="请输入">
+                <span class="hint">字段说明（选填）</span>
+              </div>
+              <div class="field">
+                <label>字段 2</label>
+                <select>
+                  <option>选项 A</option>
+                  <option>选项 B</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>字段 3</label>
+                <input type="number" value="100">
+              </div>
+              <div class="field">
+                <label>字段 4</label>
+                <input type="date">
+              </div>
+              <div class="field field-full">
+                <label>备注</label>
+                <textarea placeholder="选填"></textarea>
+              </div>
+            </div>
+            <div class="page-actions" style="margin-top:18px;justify-content:flex-end">
+              <button class="btn">恢复默认</button>
+              <button class="btn">取消</button>
+              <button class="btn btn-primary">保存</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== Tab 4: 抓拍库（.lib-cell + .grid-4） ====== -->
+      <section class="tab-pane" data-pane="view4">
+        <div class="card">
+          <div class="card-head"><h3>抓拍库（.lib-cell + .grid-4 业务组件）</h3></div>
+          <div class="card-body">
+            <div class="grid-4">
+              <div class="lib-cell">
+                <div class="lib-avatar">A</div>
+                <div class="lib-name">示例 1</div>
+                <div class="lib-count">位置 · 时间</div>
+              </div>
+              <div class="lib-cell">
+                <div class="lib-avatar">B</div>
+                <div class="lib-name">示例 2</div>
+                <div class="lib-count">位置 · 时间</div>
+              </div>
+              <div class="lib-cell">
+                <div class="lib-avatar">C</div>
+                <div class="lib-name">示例 3</div>
+                <div class="lib-count">位置 · 时间</div>
+              </div>
+              <div class="lib-cell">
+                <div class="lib-avatar">D</div>
+                <div class="lib-name">示例 4</div>
+                <div class="lib-count">位置 · 时间</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- 页面专属脚本（如有）；通用交互走 common.js -->
+<script>
+  // 演示：点击新建按钮弹出 toast
+  document.querySelectorAll('.btn-primary').forEach(b => {
+    b.addEventListener('click', () => showToast && showToast('已点击：' + b.textContent.trim()));
+  });
+</script>
+</body>
+</html>

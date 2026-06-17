@@ -1,0 +1,52 @@
+# ===== 操作系统垃圾 =====
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# ===== 编辑器 / IDE =====
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.cursor/
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+env/
+.python-version
+
+# ===== Node =====
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ===== 日志 / 临时文件 =====
+*.log
+*.tmp
+*.bak
+*.orig
+*.rej
+
+# ===== cn-spec-kit 运行时产物 =====
+# 外部大模型评审员配置（含 API Key，绝对不能入库）
+.cn-spec-kit-llm.json
+cn-spec-kit-llm.local.json
+
+# 生成的规格产物目录（每个项目独立，按需保留）
+specs/
+
+# 用户级临时调试文件
+temp/
+.cache/

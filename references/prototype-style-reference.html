@@ -294,6 +294,357 @@
     .filter{ grid-template-columns: repeat(2, minmax(0,1fr)); }
     .stats{ grid-template-columns: 1fr; }
   }
+
+  /* ============================================================
+     业务特殊组件（Step 8 业务组件标准库，与 step8-prototype.md 配套）
+     —— 禁止自创类名，必须从以下 12 个类名中选用
+     ============================================================ */
+
+  /* —— 文字工具类 —— */
+  .text-sm{ font-size: 12px; }
+  .text-sub{ color: var(--text-sub); }
+  .text-mute{ color: var(--text-mute); }
+  .text-primary{ color: var(--primary); }
+  .text-success{ color: var(--success); }
+  .text-warning{ color: var(--warning); }
+  .text-danger{ color: var(--danger); }
+
+  /* —— 页面顶部右侧操作区 —— */
+  .page-actions{ display:flex; gap:8px; align-items:center; }
+  .next-reset{ color: var(--text-sub); font-size: 13px; }
+
+  /* —— 表格可排序列 —— */
+  th.sortable{ cursor: pointer; user-select: none; }
+  th.sortable .arrow{
+    display: inline-block; margin-left: 4px;
+    color: var(--text-mute); font-size: 11px;
+    transition: color .15s;
+  }
+  th.sortable:hover .arrow{ color: var(--primary); }
+  th.sortable.sorted .arrow{ color: var(--primary); }
+
+  /* —— 业务组件 1：.diag（视频质量诊断 6 类检测项） —— */
+  .diag{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .diag > div{
+    text-align: center;
+    padding: 18px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-card);
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .diag > div:hover{
+    border-color: var(--primary);
+    box-shadow: 0 2px 8px rgba(30,111,255,0.08);
+  }
+  .diag-icon{
+    width: 48px; height: 48px;
+    margin: 0 auto 10px;
+    border-radius: 10px;
+    background: var(--primary-light);
+    color: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; font-weight: 600;
+  }
+  .diag-icon.danger{ background:#fde8e8; color:var(--danger); }
+  .diag-icon.warn{ background:#fff4e0; color:var(--warning); }
+  .diag-icon.success{ background:#e8f7ee; color:var(--success); }
+
+  /* —— 业务组件 2：.topo（容灾备份拓扑） —— */
+  .topo{
+    position: relative;
+    min-height: 320px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    overflow: hidden;
+  }
+  .topo-row{
+    display: flex; justify-content: space-around; align-items: center;
+    margin-bottom: 28px; position: relative;
+  }
+  .topo-node{
+    width: 110px; padding: 14px 10px;
+    background: #fff; border: 2px solid var(--primary);
+    border-radius: 8px; text-align: center;
+    font-size: 13px; color: var(--text);
+    position: relative; z-index: 2;
+    box-shadow: 0 2px 6px rgba(30,111,255,0.08);
+  }
+  .topo-node strong{ display: block; font-size: 14px; margin-bottom: 4px; }
+  .topo-node .sub{ color: var(--text-sub); font-size: 12px; }
+  .topo-node.standby{ border-color: var(--warning); }
+  .topo-node.danger{ border-color: var(--danger); }
+  .topo-line{
+    position: absolute; left: 10%; right: 10%;
+    top: 50%; height: 0;
+    border-top: 2px dashed var(--primary);
+    z-index: 1;
+  }
+  .topo-line::after{
+    content:""; position: absolute; right: -8px; top: -5px;
+    width: 0; height: 0;
+    border-left: 8px solid var(--primary);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+  }
+  .topo-center{
+    text-align: center; padding: 12px 0;
+    color: var(--text-sub); font-size: 12px;
+    border-top: 1px dashed var(--border);
+  }
+
+  /* —— 业务组件 3：.perm（RBAC 权限矩阵） —— */
+  .perm{
+    width: 100%;
+    border-collapse: separate; border-spacing: 0;
+    font-size: 13px;
+  }
+  .perm th, .perm td{
+    border: 1px solid var(--border);
+    padding: 10px 8px;
+    text-align: center;
+    background: #fff;
+  }
+  .perm thead th{
+    background: #f9fafb;
+    color: var(--text-sub);
+    font-weight: 500;
+  }
+  .perm tbody th{
+    background: #f9fafb;
+    color: var(--text);
+    font-weight: 500;
+    text-align: left;
+    padding-left: 14px;
+  }
+  .perm .cell-yes{ color: var(--success); font-weight: 600; }
+  .perm .cell-no{ color: var(--text-mute); }
+  .perm .cell-partial{ color: var(--warning); }
+
+  /* —— 业务组件 4：.phone（手机 H5 预览，393×852） —— */
+  .phone{
+    width: 393px; height: 852px;
+    margin: 0 auto;
+    background: #fff;
+    border: 12px solid #1f2937;
+    border-radius: 40px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  }
+  .phone-notch{
+    position: absolute; top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 120px; height: 24px;
+    background: #1f2937;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    z-index: 10;
+  }
+  .phone-statusbar{
+    height: 44px; padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 12px; color: var(--text);
+  }
+  .phone-body{
+    padding: 12px 16px; height: calc(100% - 44px);
+    overflow: auto; background: #f5f7fa;
+  }
+  .phone-bottom{
+    position: absolute; bottom: 8px; left: 50%;
+    transform: translateX(-50%);
+    width: 120px; height: 4px;
+    background: #1f2937; border-radius: 2px;
+  }
+
+  /* —— 业务组件 5：.lib（人脸库/车辆库网格） —— */
+  .lib{
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .lib-item{
+    text-align: center;
+    padding: 14px 8px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-card);
+    transition: border-color .15s, transform .15s;
+    cursor: pointer;
+  }
+  .lib-item:hover{
+    border-color: var(--primary);
+    transform: translateY(-2px);
+  }
+  .lib-avatar{
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    margin: 0 auto 8px;
+    background: var(--primary-light);
+    color: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 600;
+  }
+  .lib-name{ font-size: 13px; color: var(--text); font-weight: 500; }
+  .lib-count{ font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+
+  /* —— 业务组件 6：.grid-2/3/4（视频窗口 2×2/3×3/4×4） —— */
+  .grid-2, .grid-3, .grid-4{
+    display: grid;
+    gap: 8px;
+  }
+  .grid-2{ grid-template-columns: repeat(2, 1fr); }
+  .grid-3{ grid-template-columns: repeat(3, 1fr); }
+  .grid-4{ grid-template-columns: repeat(4, 1fr); }
+  .video-cell{
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: #0f172a;
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    color: #94a3b8; font-size: 13px;
+  }
+  .video-cell .live-dot{
+    position: absolute; top: 8px; left: 8px;
+    background: var(--danger); color: #fff;
+    font-size: 11px; padding: 1px 6px; border-radius: 3px;
+  }
+  .video-cell .cam-name{
+    position: absolute; bottom: 8px; left: 8px; right: 8px;
+    color: #fff; font-size: 12px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  }
+
+  /* —— 业务组件 7：.mini-map（鹰眼/缩略图，300×200） —— */
+  .mini-map{
+    position: absolute;
+    bottom: 16px; right: 16px;
+    width: 300px; height: 200px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    z-index: 10;
+    padding: 8px;
+  }
+  .mini-map-title{
+    font-size: 12px; color: var(--text-sub);
+    margin-bottom: 6px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .mini-map-body{
+    height: calc(100% - 22px);
+    background: #f0f4f8;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+  .mini-map-rect{
+    position: absolute;
+    border: 2px solid var(--primary);
+    background: rgba(30,111,255,0.1);
+  }
+
+  /* —— 业务组件 8：.chart-card + .chart-grid（时序/统计图） —— */
+  .chart-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .chart-card{
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+  }
+  .chart-card-head{
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .chart-card-title{ font-size: 14px; font-weight: 600; color: var(--text); }
+  .chart-card-body{
+    height: 200px;
+    background: var(--border-light);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-mute);
+    font-size: 13px;
+  }
+
+  /* —— 业务组件 9：.protocol（协议选择标签） —— */
+  .protocol{
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 14px;
+  }
+  .protocol-tag{
+    padding: 5px 12px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .protocol-tag:hover{ background: #d0e1ff; }
+  .protocol-tag.active{
+    background: var(--primary);
+    color: #fff;
+  }
+
+  /* —— 业务组件 10：.period-tabs（7天/30天/90天时间段切换） —— */
+  .period-tabs{
+    display: inline-flex; gap: 2px;
+    background: #f0f2f7;
+    padding: 3px;
+    border-radius: 6px;
+  }
+  .period-tabs span{
+    padding: 4px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--text-sub);
+    cursor: pointer;
+    user-select: none;
+  }
+  .period-tabs span.active{
+    background: #fff;
+    color: var(--primary);
+    font-weight: 500;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  }
+
+  /* —— 弹窗遮罩（简单确认操作） —— */
+  .modal-mask{
+    position: fixed; inset: 0;
+    background: rgba(15,23,42,0.45);
+    display: none; align-items: center; justify-content: center;
+    z-index: 150;
+  }
+  .modal-mask.open{ display: flex; }
+  .modal{
+    background: #fff;
+    border-radius: 8px;
+    width: 420px; max-width: 90vw;
+    padding: 20px;
+  }
+  .modal-title{ font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+  .modal-body{ font-size: 14px; color: var(--text-sub); margin-bottom: 18px; }
+  .modal-foot{ display: flex; gap: 8px; justify-content: flex-end; }
+
+  /* —— 描述网格（详情用） —— */
+  .desc-list{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; }
+  .desc-list .row{ display: flex; font-size: 13px; }
+  .desc-list .row .k{ color: var(--text-sub); width: 88px; flex-shrink: 0; }
+  .desc-list .row .v{ color: var(--text); word-break: break-all; }
 </style>
 </head>
 <body>
@@ -813,6 +1164,311 @@
     </div>
   </div>
 </aside>
+
+<!-- ===== 业务组件库示例（Step 8 标准库） ===== -->
+<!-- 业务组件库仅作为参考样式展示，业务页不会用到；可按需删除 -->
+<div class="card" style="margin-top:24px">
+  <div class="card-head">
+    <h3>业务组件标准库（参考示例，可按需复用）</h3>
+    <span class="text-mute text-sm">以下 12 个组件覆盖所有业务页需要</span>
+  </div>
+  <div class="card-body" style="display:grid;gap:18px">
+
+    <!-- 1. .diag 视频质量诊断 -->
+    <div>
+      <div class="text-sub text-sm" style="margin-bottom:8px">① .diag（视频质量诊断 6 类）</div>
+      <div class="diag">
+        <div>
+          <div class="diag-icon">❄</div>
+          <strong>雪花</strong>
+          <div class="text-sub text-sm" style="margin-top:6px">准确率 <span class="text-success">92%</span></div>
+          <div class="text-mute text-sm">本月 1,256 次</div>
+        </div>
+        <div>
+          <div class="diag-icon">≡</div>
+          <strong>条纹</strong>
+          <div class="text-sub text-sm" style="margin-top:6px">准确率 <span class="text-success">88%</span></div>
+          <div class="text-mute text-sm">本月 832 次</div>
+        </div>
+        <div>
+          <div class="diag-icon">☀</div>
+          <strong>亮度异常</strong>
+          <div class="text-sub text-sm" style="margin-top:6px">准确率 <span class="text-success">95%</span></div>
+          <div class="text-mute text-sm">本月 2,041 次</div>
+        </div>
+        <div>
+          <div class="diag-icon">▦</div>
+          <strong>清晰度异常</strong>
+          <div class="text-sub text-sm" style="margin-top:6px">准确率 <span class="text-success">90%</span></div>
+          <div class="text-mute text-sm">本月 624 次</div>
+        </div>
+        <div>
+          <div class="diag-icon danger">⊘</div>
+          <strong>信号丢失</strong>
+          <div class="text-sub text-sm" style="margin-top:6px">准确率 <span class="text-success">98%</span></div>
+          <div class="text-mute text-sm">本月 142 次</div>
+        </div>
+        <div>
+          <div class="diag-icon warn">▣</div>
+          <strong>遮挡</strong>
+          <div class="text-sub text-sm" style="margin-top:6px">准确率 <span class="text-warning">82%</span></div>
+          <div class="text-mute text-sm">本月 318 次</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. .topo 容灾拓扑 -->
+    <div>
+      <div class="text-sub text-sm" style="margin-bottom:8px">② .topo（容灾备份拓扑）</div>
+      <div class="topo">
+        <div class="topo-row">
+          <div class="topo-node">
+            <strong>主数据中心</strong>
+            <div class="sub">合肥 · 张洼</div>
+          </div>
+          <div class="topo-line"></div>
+          <div class="topo-node standby">
+            <strong>备数据中心</strong>
+            <div class="sub">合肥 · 高新</div>
+          </div>
+        </div>
+        <div class="topo-row">
+          <div class="topo-node">
+            <strong>主存储</strong>
+            <div class="sub">可用 92%</div>
+          </div>
+          <div class="topo-node">
+            <strong>主计算</strong>
+            <div class="sub">CPU 65%</div>
+          </div>
+          <div class="topo-node standby">
+            <strong>备存储</strong>
+            <div class="sub">同步完成</div>
+          </div>
+          <div class="topo-node standby">
+            <strong>备计算</strong>
+            <div class="sub">待激活</div>
+          </div>
+        </div>
+        <div class="topo-center">RPO ≤ 5 min · RTO ≤ 30 min · 双活链路健康</div>
+      </div>
+    </div>
+
+    <!-- 3. .perm 权限矩阵 -->
+    <div>
+      <div class="text-sub text-sm" style="margin-bottom:8px">③ .perm（RBAC 权限矩阵）</div>
+      <table class="perm">
+        <thead>
+          <tr>
+            <th>角色 \ 模块</th>
+            <th>设备接入</th>
+            <th>视频播放</th>
+            <th>录像回放</th>
+            <th>策略配置</th>
+            <th>用户管理</th>
+            <th>系统配置</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>集团管理员</th>
+            <td class="cell-yes">✓</td>
+            <td class="cell-yes">✓</td>
+            <td class="cell-yes">✓</td>
+            <td class="cell-yes">✓</td>
+            <td class="cell-yes">✓</td>
+            <td class="cell-yes">✓</td>
+          </tr>
+          <tr>
+            <th>分公司管理员</th>
+            <td class="cell-yes">✓</td>
+            <td class="cell-yes">✓</td>
+            <td class="cell-yes">✓</td>
+            <td class="cell-partial">部分</td>
+            <td class="cell-yes">✓</td>
+            <td class="cell-no">—</td>
+          </tr>
+          <tr>
+            <th>运营人员</th>
+            <td class="cell-yes">✓</td>
+            <td class="cell-yes">✓</td>
+            <td class="cell-yes">✓</td>
+            <td class="cell-no">—</td>
+            <td class="cell-no">—</td>
+            <td class="cell-no">—</td>
+          </tr>
+          <tr>
+            <th>普通用户</th>
+            <td class="cell-no">—</td>
+            <td class="cell-yes">✓</td>
+            <td class="cell-yes">✓</td>
+            <td class="cell-no">—</td>
+            <td class="cell-no">—</td>
+            <td class="cell-no">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 4. .phone 手机 H5 预览 -->
+    <div>
+      <div class="text-sub text-sm" style="margin-bottom:8px">④ .phone（手机 H5 预览，393×852）</div>
+      <div style="display:flex;justify-content:center;background:#f0f2f7;padding:24px;border-radius:8px">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-statusbar">
+            <span>9:41</span>
+            <span>●●●●●</span>
+          </div>
+          <div class="phone-body">
+            <div style="background:#fff;border-radius:8px;padding:12px;margin-bottom:10px">
+              <div style="font-size:13px;color:var(--text-sub)">我的设备</div>
+              <div style="font-size:22px;font-weight:600;margin-top:4px">32 <span style="font-size:13px;color:var(--text-sub)">路</span></div>
+            </div>
+            <div class="grid-2">
+              <div style="background:#000;border-radius:6px;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:11px">摄像头 1</div>
+              <div style="background:#000;border-radius:6px;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:11px">摄像头 2</div>
+            </div>
+            <div style="margin-top:10px;background:#fff;border-radius:8px;padding:10px">
+              <div style="font-size:12px;color:var(--text-sub)">最近告警</div>
+              <div style="font-size:13px;margin-top:4px">区域 A 越界检测</div>
+              <div style="font-size:11px;color:var(--text-mute)">5 分钟前</div>
+            </div>
+          </div>
+          <div class="phone-bottom"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. .lib 人脸库/车辆库 -->
+    <div>
+      <div class="text-sub text-sm" style="margin-bottom:8px">⑤ .lib（人脸库 / 车辆库网格）</div>
+      <div class="lib">
+        <div class="lib-item">
+          <div class="lib-avatar">黑</div>
+          <div class="lib-name">黑名单</div>
+          <div class="lib-count">128 人</div>
+        </div>
+        <div class="lib-item">
+          <div class="lib-avatar">白</div>
+          <div class="lib-name">白名单</div>
+          <div class="lib-count">2,560 人</div>
+        </div>
+        <div class="lib-item">
+          <div class="lib-avatar">员</div>
+          <div class="lib-name">员工库</div>
+          <div class="lib-count">820 人</div>
+        </div>
+        <div class="lib-item">
+          <div class="lib-avatar">客</div>
+          <div class="lib-name">访客库</div>
+          <div class="lib-count">3,124 人</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. .grid-2/3/4 视频窗口 -->
+    <div>
+      <div class="text-sub text-sm" style="margin-bottom:8px">⑥ .grid-2 / .grid-3 / .grid-4（视频窗口）</div>
+      <div class="grid-2">
+        <div class="video-cell">
+          <span class="live-dot">LIVE</span>
+          <span>摄像头 1</span>
+          <span class="cam-name">入口 · 主通道</span>
+        </div>
+        <div class="video-cell">
+          <span class="live-dot">LIVE</span>
+          <span>摄像头 2</span>
+          <span class="cam-name">出口 · 主通道</span>
+        </div>
+      </div>
+      <div class="grid-4" style="margin-top:10px">
+        <div class="video-cell"><span>1</span></div>
+        <div class="video-cell"><span>2</span></div>
+        <div class="video-cell"><span>3</span></div>
+        <div class="video-cell"><span>4</span></div>
+      </div>
+    </div>
+
+    <!-- 7. .chart-card 时序/统计图 -->
+    <div>
+      <div class="text-sub text-sm" style="margin-bottom:8px">⑦ .chart-card + .chart-grid（统计图）</div>
+      <div class="chart-grid">
+        <div class="chart-card">
+          <div class="chart-card-head">
+            <span class="chart-card-title">调用趋势（30 天）</span>
+            <div class="period-tabs">
+              <span>7天</span>
+              <span class="active">30天</span>
+              <span>90天</span>
+            </div>
+          </div>
+          <div class="chart-card-body">折线图占位</div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-head">
+            <span class="chart-card-title">模型占比（TOP 5）</span>
+            <span class="text-mute text-sm">本周期</span>
+          </div>
+          <div class="chart-card-body">柱状图占位</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. .protocol 协议选择 -->
+    <div>
+      <div class="text-sub text-sm" style="margin-bottom:8px">⑧ .protocol（协议选择）</div>
+      <div class="protocol">
+        <span class="protocol-tag active">GB/T 28181</span>
+        <span class="protocol-tag">RTSP</span>
+        <span class="protocol-tag">RTMP</span>
+        <span class="protocol-tag">ONVIF</span>
+        <span class="protocol-tag">海康 SDK</span>
+        <span class="protocol-tag">大华 SDK</span>
+        <span class="protocol-tag">宇视 SDK</span>
+        <span class="protocol-tag">华为 IVS</span>
+      </div>
+    </div>
+
+    <!-- 9. .sortable 表格排序 -->
+    <div>
+      <div class="text-sub text-sm" style="margin-bottom:8px">⑨ th.sortable（可排序列）</div>
+      <div class="table-wrap" style="border:1px solid var(--border);border-radius:8px">
+        <table>
+          <thead>
+            <tr>
+              <th>报告 ID</th>
+              <th>设备</th>
+              <th class="sortable">评分 <span class="arrow">↓</span></th>
+              <th>异常类型</th>
+              <th class="sortable sorted">发生时间 <span class="arrow">↓</span></th>
+              <th>状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>QD-001</td><td>入口 · 主通道</td><td>96</td><td>亮度异常</td><td>2026-06-10 09:25</td><td><span class="tag tag-green">已处理</span></td></tr>
+            <tr><td>QD-002</td><td>出口 · 主通道</td><td>78</td><td>条纹</td><td>2026-06-09 21:30</td><td><span class="tag tag-orange">待处理</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 10. .mini-map 鹰眼缩略图 -->
+    <div>
+      <div class="text-sub text-sm" style="margin-bottom:8px">⑩ .mini-map（电子地图鹰眼，置于 .map-container 内右下角）</div>
+      <div style="position:relative;height:240px;background:#e2e8f0;border:1px solid var(--border);border-radius:8px;overflow:hidden">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--text-mute)">主地图占位区</div>
+        <div class="mini-map">
+          <div class="mini-map-title"><span>鹰眼视图</span><span>1:2000</span></div>
+          <div class="mini-map-body">
+            <div class="mini-map-rect" style="left:20%;top:30%;width:30%;height:25%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <!-- Toast -->
 <div class="toast" id="toast"></div>

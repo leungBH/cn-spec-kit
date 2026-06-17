@@ -112,7 +112,7 @@ description: 面向中国 ToB 软件产品团队的 Agent-Ready 产品规格生�
 
 **多评审员策略**：
 - 1 个评审员：该评审员结果决定是否通过
-- 2+ 个评审员：≥50% 通过即视为通过
+- 2+ 个评审员：严格多数通过（>50%通过才视为通过），且任一评审员发现🔴严重问题时必须人类确认
 
 ### 第四层：人类QA确认门（仅 Step 4.5 和 Step 8）
 
@@ -121,7 +121,7 @@ description: 面向中国 ToB 软件产品团队的 Agent-Ready 产品规格生�
 **确认流程**：
 
 ```
-三层自动化检查通过 → AskUserQuestion 展示产物摘要+评审问题 → 用户确认
+三层自动化检查通过 → 结构化提问展示产物摘要+评审问题 → 用户确认
                                                                     ↓ ✅确认通过
                                                                 记录确认 → 进入下一步
                                                                     ↓ 🔧需要修改
@@ -134,14 +134,64 @@ description: 面向中国 ToB 软件产品团队的 Agent-Ready 产品规格生�
 
 ---
 
-## 模板覆盖机制
+## 🚨 Step 8（页面原型）硬性约束速查（一行不能漏）
 
-模板读取按优先级顺序查找，高优先级覆盖低优先级：
+> **本章节是整个 skill 中最高频踩坑的章节，单独提炼到这里便于 LLM 在生成 HTML 时快速对照。**
+> 详细规则见 `steps/step8-prototype.md`；本章节是「最少必要规则」。
+
+### 8 个不可违反的硬性约束
+
+| # | 约束 | 漏掉的代价 | 速查 |
+|---|------|-----------|------|
+| 1 | **必须同时引用 `common.css` + `common.js`** | tab 切换、protocol 标签、drawer、sortable 全部失灵 | `<link rel="stylesheet" href="common.css">` 紧跟 `<script src="common.js"></script>` |
+| 2 | **菜单项 ≤ 25、分组 ≤ 6、图标用方块字符** | 侧边栏滚动可见、跨设备 Emoji 渲染不一致 | 图标用 `▦▣▤▥▧▨▩▪▫◌◍◎●☰⚙⌂` |
+| 3 | **业务组件用标准类名，不许自创** | 跨页面风格漂移 | 复用 `.diag .lib-cell .topo .perm .phone .protocol .grid-2/3/4 .chart-card .period-tabs` |
+| 4 | **表格页必须有 `.filter` 筛选条** | 用户无法按条件查询 | 5 列 `.field` + 末列 `.filter-actions` |
+| 5 | **复杂页（≥ 3 子视图）必须有 `.tabs`** | 一屏堆叠、页面超长 | 至少 3 个 `.tab` 配对应 `.tab-pane` |
+| 6 | **不引入外部框架** | 引入即破坏样式一致性 | 禁止 Tailwind / Element Plus / Element UI / Ant Design CDN |
+| 7 | **核心页独立 HTML，不堆 panel** | 单文件 5000+ 行、维护地狱 | 1 个 P0/P1 页 = 1 个 `xxx.html`，详情用 `.drawer` |
+| 8 | **`<style>` 内有 `:root` CSS 变量** | 主题色/字号无法统一 | 必须在 style 开头定义 `--primary` 等变量 |
+
+### 标准模板与参考
+
+- **最小标准模板**（生成新页面时直接模仿它）：`references/prototype-minimal-template.html`
+- **完整样式参考**（CSS 变量体系、组件样式全在这）：`references/prototype-style-reference.html`（自包含单文件，可独立预览）
+- **通用交互脚本**（tab 切换 / 协议标签 / 抽屉 / 排序 / Toast）：部署到 `prototypes/common.js`，所有原型页必须引用
+
+### LLM 生成 HTML 后的 8 项自检（每次输出前必过）
 
 ```
-1. 项目级覆盖    → .claude/skills/cn-spec-kit/overrides/<template>.md
-2. 行业预设      → .claude/skills/cn-spec-kit/presets/<industry>/<template>.md
-3. 全局默认      → .claude/skills/cn-spec-kit/templates/<template>.md
+□ 1. 引用了 common.css
+□ 2. 引用了 common.js（紧跟 common.css 之后）
+□ 3. 侧边栏菜单 ≤ 25、无 Emoji 图标
+□ 4. 业务组件用标准类名（无 .my- .custom- .local- 前缀）
+□ 5. 表格页有 .filter
+□ 6. 复杂页（≥3 子视图）有 .tabs
+□ 7. 无 Tailwind / Element Plus / Element UI / Ant Design CDN
+□ 8. <style> 内有 :root CSS 变量定义
+```
+
+**自检未通过必须当场修复**，不允许写"已知问题、后续优化"。
+
+### 常见反模式（真实踩过的坑）
+
+| 反模式 | 症状 | 解法 |
+|--------|------|------|
+| 50 panel 塞 1 HTML | 单文件 5000+ 行、找不到菜单 | 核心页独立 HTML + 抽屉 |
+| 每个页面内联 tab 切换 JS | 50 份相同 JS 散落各处 | 统一走 common.js |
+| 漏掉 common.js | tab 点击没反应 | 强制引用 common.js |
+| 自创类名 `.face-grid` `.my-diag` | 跨页面漂移 | 100% 复用 common.css 标准类名 |
+
+---
+
+## 模板覆盖机制
+
+模板读取按优先级顺序查找，高优先级覆盖低优先级。**技能根目录**根据运行环境自动检测：Trae 环境为 `.trae/skills/cn-spec-kit/`，Claude Code 环境为 `.claude/skills/cn-spec-kit/`。
+
+```
+1. 项目级覆盖    → <技能根>/overrides/<template>.md
+2. 行业预设      → <技能根>/presets/<industry>/<template>.md
+3. 全局默认      → <技能根>/templates/<template>.md
 ```
 
 **使用方式**：
@@ -174,7 +224,7 @@ Step 4.5 会自动从 `templates/index.md` 加载模板清单，让用户选择�
 | Step 11 研发任务 | FE/BE/TEST | 前端、后端、测试三类任务同时拆解 |
 | 外部评审 | 多评审员 | 多个外部评审员同时调用评审（如注册了 2+ 个评审员） |
 
-使用 `parallel()` 或多个 Agent 工具调用实现并行。其余步骤顺序执行。
+使用并行工具调用或多个 Agent 同时执行。其余步骤顺序执行。
 
 ---
 
@@ -316,18 +366,11 @@ specs/<序号-功能名>/
 
 ## 可选补充产物
 
-以下产物不在主流程中自动生成，但用户可按需单独请求：
+以下产物不在主流程中自动生成，但用户可按需单独请求。注意：编号 14 已用于评审日志（`14-review-log.md`），因此补充产物从 15 开始编号。
 
 | 编号 | 产物 | 模板 | 适用场景 |
 |------|------|------|----------|
-| 14 | 14-data-dictionary.md | templates/data-dictionary.md | 数据模型复杂、需要独立字段字典文档时（字段定义已在 08-page-spec.md 和 PRD Section 6 中覆盖） |
-| 15 | 14-non-functional.md | templates/non-functional.md | 需要独立非功能需求规格书时（内容已在 PRD Section 5 和 11-acceptance.md 中覆盖） |
+| 15 | 15-data-dictionary.md | templates/data-dictionary.md | 数据模型复杂、需要独立字段字典文档时（字段定义已在 08-page-spec.md 和 PRD Section 6 中覆盖） |
+| 16 | 16-non-functional.md | templates/non-functional.md | 需要独立非功能需求规格书时（内容已在 PRD Section 5 和 11-acceptance.md 中覆盖） |
 
 使用方式：用户提出"生成数据字典"或"生成非功能需求规格书"时，读取已有 PRD 和页面规格作为输入，按对应模板生成。
-
-注意：编号 14 已用于评审日志（`14-review-log.md`），数据字典编号调整为 15，非功能需求编号调整为 16。
-
-| 编号 | 产物 | 模板 | 适用场景 |
-|------|------|------|----------|
-| 15 | 15-data-dictionary.md | templates/data-dictionary.md | 数据模型复杂、需要独立字段字典文档时 |
-| 16 | 16-non-functional.md | templates/non-functional.md | 需要独立非功能需求规格书时 |
