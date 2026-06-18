@@ -3,80 +3,436 @@
 <head>
   <meta charset="UTF-8">
   <title>部门考勤报表 - cn-spec-kit Demo</title>
+  <link rel="stylesheet" href="common.css">
+  <script src="common.js"></script>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f2f5; }
-    .layout { display: flex; min-height: 100vh; }
-    .sidebar { width: 220px; background: #001529; color: #fff; padding: 20px 0; }
-    .sidebar .logo { padding: 0 20px 20px; font-size: 18px; font-weight: 500; border-bottom: 1px solid #1f3a5f; }
-    .menu-item { padding: 12px 20px; cursor: pointer; color: #b3c0cc; }
-    .menu-item.active { background: #1890ff; color: #fff; }
-    .main { flex: 1; padding: 20px; }
-    .header { background: #fff; padding: 16px 24px; border-radius: 4px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
-    .header h1 { font-size: 20px; }
-    .filters { background: #fff; padding: 16px 24px; border-radius: 4px; margin-bottom: 16px; display: flex; gap: 12px; align-items: center; }
-    .filters select, .filters button { padding: 6px 16px; border: 1px solid #d9d9d9; border-radius: 4px; background: #fff; cursor: pointer; }
-    .filters button.primary { background: #1890ff; color: #fff; border-color: #1890ff; }
-    .overview { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px; }
-    .stat-card { background: #fff; padding: 20px; border-radius: 4px; text-align: center; }
-    .stat-card .num { font-size: 32px; font-weight: 600; color: #1890ff; }
-    .stat-card .label { color: #999; font-size: 14px; margin-top: 8px; }
-    .table-card { background: #fff; border-radius: 4px; padding: 24px; }
-    .table-card h2 { margin-bottom: 16px; font-size: 16px; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #f0f0f0; }
-    th { background: #fafafa; color: #666; font-weight: 500; }
-    tr:hover { background: #fafafa; }
-    .demo-tag { padding: 20px; text-align: center; color: #999; font-size: 12px; }
+    .chart-card { background: #fff; border-radius: 4px; padding: 20px; margin-bottom: 16px; }
+    .chart-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .chart-card-title { font-size: 16px; font-weight: 500; }
+    .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .bar-chart { display: flex; align-items: flex-end; gap: 12px; height: 220px; padding: 16px 0; border-bottom: 1px solid var(--border); position: relative; }
+    .bar-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .bar-item .bar { width: 100%; background: linear-gradient(180deg, #1890ff, #40a9ff); border-radius: 4px 4px 0 0; min-height: 4px; transition: all 0.3s; cursor: pointer; position: relative; }
+    .bar-item .bar:hover { background: linear-gradient(180deg, #40a9ff, #69c0ff); transform: translateY(-2px); }
+    .bar-item .bar .bar-val { position: absolute; top: -22px; left: 50%; transform: translateX(-50%); font-size: 12px; color: var(--text-sub); white-space: nowrap; }
+    .bar-item .bar-label { font-size: 12px; color: var(--text-sub); }
+    .pie-mock { display: flex; align-items: center; justify-content: center; gap: 24px; padding: 16px 0; }
+    .pie-circle { width: 140px; height: 140px; border-radius: 50%; background: conic-gradient(var(--success) 0 70%, var(--warning) 70% 85%, var(--danger) 85% 95%, var(--text-mute) 95% 100%); position: relative; }
+    .pie-circle::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; border-radius: 50%; background: #fff; }
+    .pie-legend { display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
+    .pie-legend .item { display: flex; align-items: center; gap: 8px; }
+    .pie-legend .dot { width: 10px; height: 10px; border-radius: 2px; }
   </style>
 </head>
 <body>
   <div class="layout">
-    <div class="sidebar">
-      <div class="logo">考勤管理系统</div>
-      <div class="menu-item">工作台</div>
-      <div class="menu-item">员工打卡</div>
-      <div class="menu-item">请假审批</div>
-      <div class="menu-item">考勤报表</div>
-      <div class="menu-item active">部门报表</div>
-      <div class="menu-item">基础数据</div>
-    </div>
+    <aside class="sidebar">
+      <div class="sidebar-logo">▣ 考勤管理系统</div>
+      <nav class="menu">
+        <div class="menu-group-title">工作台</div>
+        <a class="menu-item" href="dashboard.html" onclick="return nav(event, 'dashboard.html')"><span class="icon">⌂</span>概览</a>
+        <div class="menu-group-title">考勤</div>
+        <a class="menu-item" href="index.html" onclick="return nav(event, 'index.html')"><span class="icon">▦</span>员工打卡</a>
+        <a class="menu-item" href="approve.html" onclick="return nav(event, 'approve.html')"><span class="icon">▣</span>请假审批 <span style="float:right;background:#ff4d4f;color:#fff;border-radius:8px;padding:0 6px;font-size:11px;">5</span></a>
+        <a class="menu-item" href="approve-repair.html" onclick="return nav(event, 'approve-repair.html')"><span class="icon">▤</span>补卡审批 <span style="float:right;background:#faad14;color:#fff;border-radius:8px;padding:0 6px;font-size:11px;">3</span></a>
+        <a class="menu-item" href="approve-overtime.html" onclick="return nav(event, 'approve-overtime.html')"><span class="icon">▥</span>加班审批 <span style="float:right;background:#52c41a;color:#fff;border-radius:8px;padding:0 6px;font-size:11px;">2</span></a>
+        <div class="menu-group-title">报表</div>
+        <a class="menu-item active" href="report.html" onclick="return nav(event, 'report.html')"><span class="icon">▧</span>部门报表</a>
+        <a class="menu-item" href="report-company.html" onclick="return nav(event, 'report-company.html')"><span class="icon">▨</span>全公司报表</a>
+        <div class="menu-group-title">基础数据</div>
+        <a class="menu-item" href="admin-employee.html" onclick="return nav(event, 'admin-employee.html')"><span class="icon">▩</span>员工管理</a>
+        <a class="menu-item" href="admin-dept.html" onclick="return nav(event, 'admin-dept.html')"><span class="icon">▪</span>部门管理</a>
+        <a class="menu-item" href="admin-shift.html" onclick="return nav(event, 'admin-shift.html')"><span class="icon">▫</span>班次管理</a>
+      </nav>
+    </aside>
     <div class="main">
-      <div class="header">
-        <h1>部门考勤报表</h1>
-        <div>👤 张经理（研发部负责人）</div>
-      </div>
-      <div class="filters">
-        <span>月份:</span>
-        <select><option>2026-06</option><option>2026-05</option></select>
-        <span>部门:</span>
-        <select><option>研发部</option><option>市场部</option></select>
-        <button class="primary">导出 Excel</button>
-        <button>导出 PDF</button>
-      </div>
-      <div class="overview">
-        <div class="stat-card"><div class="num">30</div><div class="label">应到人数</div></div>
-        <div class="stat-card"><div class="num">28</div><div class="label">实到人数</div></div>
-        <div class="stat-card"><div class="num">5</div><div class="label">迟到人次</div></div>
-        <div class="stat-card"><div class="num">8</div><div class="label">请假天数</div></div>
-      </div>
-      <div class="table-card">
-        <h2>员工明细</h2>
-        <table>
-          <thead>
-            <tr><th>员工</th><th>工号</th><th>出勤</th><th>迟到</th><th>早退</th><th>请假</th><th>加班(h)</th><th>调休余额(天)</th><th>操作</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>张三</td><td>EMP001</td><td>22</td><td>0</td><td>0</td><td>0</td><td>4</td><td>2.0</td><td><a href="#">详情</a></td></tr>
-            <tr><td>李四</td><td>EMP002</td><td>20</td><td>1</td><td>0</td><td>2天</td><td>0</td><td>0.5</td><td><a href="#">详情</a></td></tr>
-            <tr><td>王五</td><td>EMP003</td><td>21</td><td>0</td><td>0</td><td>1天</td><td>2</td><td>1.0</td><td><a href="#">详情</a></td></tr>
-            <tr><td>赵六</td><td>EMP004</td><td>22</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><a href="#">详情</a></td></tr>
-            <tr><td>钱七</td><td>EMP005</td><td>19</td><td>2</td><td>1</td><td>0</td><td>0</td><td>0</td><td><a href="#">详情</a></td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="demo-tag">cn-spec-kit Demo · 考勤管理系统 · Page P11</div>
+      <header class="header">
+        <div class="crumbs">
+          <a href="dashboard.html" onclick="return nav(event, 'dashboard.html')">工作台</a>
+          <span class="sep">/</span>
+          <a href="report.html" onclick="return nav(event, 'report.html')">报表</a>
+          <span class="sep">/</span>
+          <span>部门报表</span>
+        </div>
+        <div class="user-area">
+          <span title="通知">🔔 3</span>
+          <div class="avatar">张</div>
+          <span>张经理（研发部）</span>
+        </div>
+      </header>
+      <main class="content">
+        <div class="page-head">
+          <div>
+            <div class="page-title">部门考勤报表</div>
+            <div class="page-sub">研发部 · 2026 年 6 月 · 数据更新于 1 分钟前</div>
+          </div>
+          <div class="page-actions">
+            <button class="btn" onclick="exportReport('excel')">▦ 导出 Excel</button>
+            <button class="btn" onclick="exportReport('pdf')">▣ 导出 PDF</button>
+            <button class="btn" onclick="printReport()">▤ 打印</button>
+            <button class="btn btn-primary" onclick="refreshData()">↻ 刷新</button>
+          </div>
+        </div>
+
+        <!-- 统计卡 -->
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-icon">▦</div>
+            <div class="stat-num">30</div>
+            <div class="stat-label">应到人数</div>
+          </div>
+          <div class="stat">
+            <div class="stat-icon" style="background:#f6ffed;color:#52c41a;">✓</div>
+            <div class="stat-num">28</div>
+            <div class="stat-label">实到人数</div>
+          </div>
+          <div class="stat">
+            <div class="stat-icon" style="background:#fffbe6;color:#faad14;">⚠</div>
+            <div class="stat-num">5</div>
+            <div class="stat-label">迟到人次</div>
+          </div>
+          <div class="stat">
+            <div class="stat-icon" style="background:#fff1f0;color:#ff4d4f;">▥</div>
+            <div class="stat-num">8</div>
+            <div class="stat-label">请假天数</div>
+          </div>
+        </div>
+
+        <!-- Tabs 切换不同报表维度 -->
+        <div class="tabs" style="border-radius: 4px 4px 0 0; padding: 0 20px;">
+          <div class="tab active" data-tab="summary">▦ 汇总报表</div>
+          <div class="tab" data-tab="employee">▣ 员工明细</div>
+          <div class="tab" data-tab="trend">▧ 月度趋势</div>
+          <div class="tab" data-tab="abnormal">⚠ 异常分析</div>
+        </div>
+        <div class="card" style="border-radius: 0 0 4px 4px; margin-top: -1px;">
+          <div class="card-body">
+            <!-- 筛选条 -->
+            <div class="filter mb-6">
+              <div class="field">
+                <label>统计月份</label>
+                <select id="filterMonth">
+                  <option>2026-06</option>
+                  <option>2026-05</option>
+                  <option>2026-04</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>部门</label>
+                <select id="filterDept">
+                  <option>研发部</option>
+                  <option>市场部</option>
+                  <option>财务部</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>考勤组</label>
+                <select id="filterGroup">
+                  <option>全部</option>
+                  <option>白班组</option>
+                  <option>倒班组</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>员工姓名</label>
+                <input type="text" id="filterName" placeholder="搜索员工">
+              </div>
+              <div class="filter-actions">
+                <button class="btn btn-primary" data-action="query">查询</button>
+                <button class="btn" data-action="reset">重置</button>
+              </div>
+            </div>
+
+            <!-- Tab 1: 汇总报表 -->
+            <div class="tab-pane active" data-pane="summary">
+              <div class="chart-grid mb-6">
+                <div class="chart-card" style="margin-bottom:0;">
+                  <div class="chart-card-head">
+                    <div class="chart-card-title">▦ 每日出勤趋势</div>
+                    <div class="page-actions">
+                      <button class="btn btn-sm" onclick="showToast('切换为折线图（演示）')">▧ 折线图</button>
+                    </div>
+                  </div>
+                  <div class="bar-chart" id="barChart">
+                    <div class="bar-item"><div class="bar" style="height: 85%"><div class="bar-val">29</div></div><div class="bar-label">06-01</div></div>
+                    <div class="bar-item"><div class="bar" style="height: 90%"><div class="bar-val">30</div></div><div class="bar-label">06-02</div></div>
+                    <div class="bar-item"><div class="bar" style="height: 80%"><div class="bar-val">27</div></div><div class="bar-label">06-03</div></div>
+                    <div class="bar-item"><div class="bar" style="height: 88%"><div class="bar-val">29</div></div><div class="bar-label">06-04</div></div>
+                    <div class="bar-item"><div class="bar" style="height: 78%"><div class="bar-val">26</div></div><div class="bar-label">06-05</div></div>
+                    <div class="bar-item"><div class="bar" style="height: 60%"><div class="bar-val">20</div></div><div class="bar-label">06-06</div></div>
+                    <div class="bar-item"><div class="bar" style="height: 55%"><div class="bar-val">18</div></div><div class="bar-label">06-07</div></div>
+                    <div class="bar-item"><div class="bar" style="height: 92%"><div class="bar-val">30</div></div><div class="bar-label">06-08</div></div>
+                    <div class="bar-item"><div class="bar" style="height: 95%"><div class="bar-val">30</div></div><div class="bar-label">06-09</div></div>
+                    <div class="bar-item"><div class="bar" style="height: 90%"><div class="bar-val">29</div></div><div class="bar-label">06-10</div></div>
+                    <div class="bar-item"><div class="bar" style="height: 88%"><div class="bar-val">28</div></div><div class="bar-label">06-11</div></div>
+                    <div class="bar-item"><div class="bar" style="height: 85%"><div class="bar-val">28</div></div><div class="bar-label">06-12</div></div>
+                  </div>
+                </div>
+                <div class="chart-card" style="margin-bottom:0;">
+                  <div class="chart-card-head">
+                    <div class="chart-card-title">▣ 出勤构成</div>
+                  </div>
+                  <div class="pie-mock">
+                    <div class="pie-circle"></div>
+                    <div class="pie-legend">
+                      <div class="item"><div class="dot" style="background:var(--success);"></div><span>正常出勤 70%</span></div>
+                      <div class="item"><div class="dot" style="background:var(--warning);"></div><span>请假 15%</span></div>
+                      <div class="item"><div class="dot" style="background:var(--danger);"></div><span>异常 10%</span></div>
+                      <div class="item"><div class="dot" style="background:var(--text-mute);"></div><span>其他 5%</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab 2: 员工明细 -->
+            <div class="tab-pane" data-pane="employee">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>员工</th>
+                      <th>工号</th>
+                      <th class="sortable">出勤(天) <span class="arrow">↓</span></th>
+                      <th class="sortable">迟到 <span class="arrow">↓</span></th>
+                      <th class="sortable">早退 <span class="arrow">↓</span></th>
+                      <th class="sortable">请假(天) <span class="arrow">↓</span></th>
+                      <th class="sortable">加班(h) <span class="arrow">↓</span></th>
+                      <th>调休余额</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><a href="#" onclick="event.preventDefault(); viewEmployee('EMP001'); return false;">张三</a></td>
+                      <td>EMP001</td>
+                      <td>22</td><td>0</td><td>0</td><td>0</td><td>4</td><td>2.0 天</td>
+                      <td>
+                        <button class="btn btn-sm btn-primary" onclick="viewEmployee('EMP001')">详情</button>
+                        <button class="btn btn-sm" onclick="exportOne('EMP001')">导出</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><a href="#" onclick="event.preventDefault(); viewEmployee('EMP002'); return false;">李四</a></td>
+                      <td>EMP002</td>
+                      <td>20</td><td>1</td><td>0</td><td>2</td><td>0</td><td>0.5 天</td>
+                      <td>
+                        <button class="btn btn-sm btn-primary" onclick="viewEmployee('EMP002')">详情</button>
+                        <button class="btn btn-sm" onclick="exportOne('EMP002')">导出</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><a href="#" onclick="event.preventDefault(); viewEmployee('EMP003'); return false;">王五</a></td>
+                      <td>EMP003</td>
+                      <td>21</td><td>0</td><td>0</td><td>1</td><td>2</td><td>1.0 天</td>
+                      <td>
+                        <button class="btn btn-sm btn-primary" onclick="viewEmployee('EMP003')">详情</button>
+                        <button class="btn btn-sm" onclick="exportOne('EMP003')">导出</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><a href="#" onclick="event.preventDefault(); viewEmployee('EMP004'); return false;">赵六</a></td>
+                      <td>EMP004</td>
+                      <td>22</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0 天</td>
+                      <td>
+                        <button class="btn btn-sm btn-primary" onclick="viewEmployee('EMP004')">详情</button>
+                        <button class="btn btn-sm" onclick="exportOne('EMP004')">导出</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><a href="#" onclick="event.preventDefault(); viewEmployee('EMP005'); return false;">钱七</a></td>
+                      <td>EMP005</td>
+                      <td>19</td><td>2</td><td>1</td><td>0</td><td>0</td><td>0 天</td>
+                      <td>
+                        <button class="btn btn-sm btn-primary" onclick="viewEmployee('EMP005')">详情</button>
+                        <button class="btn btn-sm" onclick="exportOne('EMP005')">导出</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Tab 3: 月度趋势 -->
+            <div class="tab-pane" data-pane="trend">
+              <div class="chart-card" style="margin-bottom: 0;">
+                <div class="chart-card-head">
+                  <div class="chart-card-title">▧ 近 6 月出勤率趋势</div>
+                </div>
+                <div class="bar-chart">
+                  <div class="bar-item"><div class="bar" style="height: 88%; background: linear-gradient(180deg, #52c41a, #73d13d);"><div class="bar-val">88%</div></div><div class="bar-label">2026-01</div></div>
+                  <div class="bar-item"><div class="bar" style="height: 90%; background: linear-gradient(180deg, #52c41a, #73d13d);"><div class="bar-val">90%</div></div><div class="bar-label">2026-02</div></div>
+                  <div class="bar-item"><div class="bar" style="height: 85%; background: linear-gradient(180deg, #52c41a, #73d13d);"><div class="bar-val">85%</div></div><div class="bar-label">2026-03</div></div>
+                  <div class="bar-item"><div class="bar" style="height: 92%; background: linear-gradient(180deg, #52c41a, #73d13d);"><div class="bar-val">92%</div></div><div class="bar-label">2026-04</div></div>
+                  <div class="bar-item"><div class="bar" style="height: 87%; background: linear-gradient(180deg, #52c41a, #73d13d);"><div class="bar-val">87%</div></div><div class="bar-label">2026-05</div></div>
+                  <div class="bar-item"><div class="bar" style="height: 93%; background: linear-gradient(180deg, #52c41a, #73d13d);"><div class="bar-val">93%</div></div><div class="bar-label">2026-06</div></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab 4: 异常分析 -->
+            <div class="tab-pane" data-pane="abnormal">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>员工</th>
+                      <th>异常类型</th>
+                      <th>发生日期</th>
+                      <th>详情</th>
+                      <th>处理状态</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>李四</td>
+                      <td><span class="tag tag-warning">迟到</span></td>
+                      <td>2026-06-05</td>
+                      <td>迟到 35 分钟</td>
+                      <td><span class="tag tag-success">已处理</span></td>
+                      <td><button class="btn btn-sm" onclick="handleAbnormal(1)">查看</button></td>
+                    </tr>
+                    <tr>
+                      <td>钱七</td>
+                      <td><span class="tag tag-warning">迟到</span></td>
+                      <td>2026-06-08</td>
+                      <td>迟到 15 分钟</td>
+                      <td><span class="tag tag-warning">待处理</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-primary" onclick="handleAbnormal(2, 'mark')">标记</button>
+                        <button class="btn btn-sm" onclick="handleAbnormal(2)">查看</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>钱七</td>
+                      <td><span class="tag tag-danger">早退</span></td>
+                      <td>2026-06-10</td>
+                      <td>早退 40 分钟</td>
+                      <td><span class="tag tag-warning">待处理</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-primary" onclick="handleAbnormal(3, 'mark')">标记</button>
+                        <button class="btn btn-sm" onclick="handleAbnormal(3)">查看</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>孙八</td>
+                      <td><span class="tag tag-danger">缺卡</span></td>
+                      <td>2026-06-12</td>
+                      <td>下班卡缺失</td>
+                      <td><span class="tag tag-warning">待处理</span></td>
+                      <td>
+                        <button class="btn btn-sm btn-primary" onclick="handleAbnormal(4, 'mark')">标记</button>
+                        <button class="btn btn-sm" onclick="handleAbnormal(4)">查看</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   </div>
+
+  <!-- 员工详情抽屉 -->
+  <div class="drawer-mask" id="drawerMask"></div>
+  <div class="drawer" id="drawer">
+    <div class="drawer-head">
+      <div class="drawer-title">▣ 员工考勤详情</div>
+      <button class="drawer-close" onclick="closeDrawer()">×</button>
+    </div>
+    <div class="drawer-body" id="drawerBody"></div>
+    <div class="drawer-foot">
+      <button class="btn" onclick="closeDrawer()">关闭</button>
+      <button class="btn btn-primary" onclick="exportCurrent()">▦ 导出此人</button>
+    </div>
+  </div>
+
+  <script>
+    // 导航
+    function nav(e, target) {
+      e.preventDefault();
+      showToast('正在跳转到 ' + target);
+      setTimeout(() => { window.location.href = target; }, 300);
+      return false;
+    }
+
+    // 导出报表
+    function exportReport(type) {
+      if (type === 'excel') showToast('正在生成 Excel 报表...');
+      else if (type === 'pdf') showToast('正在生成 PDF 报表...');
+      setTimeout(() => showToast('已生成，可下载（演示）'), 1200);
+    }
+
+    // 打印
+    function printReport() {
+      showToast('正在准备打印...');
+      setTimeout(() => window.print(), 600);
+    }
+
+    // 刷新
+    function refreshData() {
+      showToast('正在刷新数据...');
+      setTimeout(() => showToast('数据已更新 ✓'), 800);
+    }
+
+    // 员工详情
+    function viewEmployee(empId) {
+      const dataMap = {
+        EMP001: { name: '张三', empId: 'EMP001', dept: '研发部', post: '高级工程师', should: 22, actual: 22, late: 0, early: 0, leave: 0, overtime: 4, rest: '2.0 天' },
+        EMP002: { name: '李四', empId: 'EMP002', dept: '市场部', post: '市场专员', should: 22, actual: 20, late: 1, early: 0, leave: 2, overtime: 0, rest: '0.5 天' },
+        EMP003: { name: '王五', empId: 'EMP003', dept: '研发部', post: '前端工程师', should: 22, actual: 21, late: 0, early: 0, leave: 1, overtime: 2, rest: '1.0 天' },
+        EMP004: { name: '赵六', empId: 'EMP004', dept: '研发部', post: '测试工程师', should: 22, actual: 22, late: 0, early: 0, leave: 0, overtime: 0, rest: '0 天' },
+        EMP005: { name: '钱七', empId: 'EMP005', dept: '研发部', post: '后端工程师', should: 22, actual: 19, late: 2, early: 1, leave: 0, overtime: 0, rest: '0 天' }
+      };
+      const d = dataMap[empId] || { name: '员工', empId: empId };
+      const body = document.getElementById('drawerBody');
+      if (body) {
+        body.innerHTML = `
+          <div class="desc-grid">
+            <div><div class="label">姓名</div><div class="value">${d.name}</div></div>
+            <div><div class="label">工号</div><div class="value">${d.empId}</div></div>
+            <div><div class="label">部门</div><div class="value">${d.dept || '-'}</div></div>
+            <div><div class="label">岗位</div><div class="value">${d.post || '-'}</div></div>
+            <div><div class="label">应出勤</div><div class="value">${d.should || '-'} 天</div></div>
+            <div><div class="label">实际出勤</div><div class="value">${d.actual || '-'} 天</div></div>
+            <div><div class="label">迟到</div><div class="value">${d.late || 0} 次</div></div>
+            <div><div class="label">早退</div><div class="value">${d.early || 0} 次</div></div>
+            <div><div class="label">请假</div><div class="value">${d.leave || 0} 天</div></div>
+            <div><div class="label">加班</div><div class="value">${d.overtime || 0} h</div></div>
+            <div><div class="label">调休余额</div><div class="value">${d.rest || '0 天'}</div></div>
+            <div><div class="label">出勤率</div><div class="value"><span class="tag tag-success">${d.should ? Math.round(d.actual/d.should*100) : 0}%</span></div></div>
+          </div>
+          <div style="margin-top:20px;padding:16px;background:#fafafa;border-radius:4px;font-size:13px;color:var(--text-sub);">
+            <div>▦ 月度汇总：本月实际出勤 ${d.actual || 0} 天，迟到 ${d.late || 0} 次，加班 ${d.overtime || 0} 小时</div>
+            <div style="margin-top:6px;">▣ 异常提醒：${(d.late||0) + (d.early||0) > 0 ? '有 ' + ((d.late||0) + (d.early||0)) + ' 次异常，请关注' : '无异常'}</div>
+          </div>
+        `;
+      }
+      openDrawer();
+    }
+
+    // 导出单人
+    function exportOne(empId) {
+      showToast('正在导出 ' + empId + ' 的考勤记录...');
+      setTimeout(() => showToast('已导出 ' + empId + ' ✓'), 800);
+    }
+
+    function exportCurrent() {
+      showToast('正在导出当前员工...');
+      setTimeout(() => showToast('已导出 ✓'), 800);
+    }
+
+    // 处理异常
+    function handleAbnormal(id, action) {
+      if (action === 'mark') {
+        showToast('已标记异常 ' + id + ' 为已处理');
+      } else {
+        showToast('查看异常 ' + id + ' 详情（演示）');
+      }
+    }
+  </script>
 </body>
 </html>
