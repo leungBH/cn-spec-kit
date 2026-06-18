@@ -21,7 +21,7 @@
 - **不存在**：以结构化提问方式询问用户是否配置外部评审员：
   - 选项 A："不使用外部评审，仅依赖内部质量门禁"
   - 选项 B："配置外部评审员（需提供 URL、Key、Model）"
-  
+
   如果用户选择配置评审员，逐个询问 URL、Key、Model，保存到 `.cn-spec-kit-llm.json`。参考 `references/external-llm-config.md` 了解常见配置。
 
 详细评审机制见 `steps/external-review.md`。

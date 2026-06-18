@@ -1,14 +1,14 @@
-# Step 12: 研发任务 (tasks)
+# Step 10: 研发任务 (tasks)
 
 读取研发任务模板（按覆盖优先级查找）：
 - 再查 `presets/<industry>/dev-tasks.md`
 - 最后 `templates/dev-tasks.md`
 
-读取 `04-prd.md`、`06-dependency-dag.md`、`07-business-flow.md`、`08-page-spec.md`、`10-permission-matrix.md`、`11-acceptance.md` 和 `05-scope-selection.md` 作为输入。
+读取 `04-prd.md`、`05-flow.md`、`06-prototype.md`、`07-permission.md` 和 `08-acceptance.md` 作为输入。
 
 只对选定优先级的功能拆解详细研发任务。
 
-生成 `12-dev-tasks.md` 和 `13-traceability-matrix.md`。
+生成 `09-dev-tasks.md`。
 
 ---
 
@@ -55,11 +55,11 @@
 - Agent 2：拆解后端任务（基于PRD + 流程 + DAG）
 - Agent 3：拆解测试任务（基于验收标准）
 
-三类任务拆解完成后，合并写入 `12-dev-tasks.md`。
+三类任务拆解完成后，合并写入 `09-dev-tasks.md`。
 
 ---
 
-## 13-traceability-matrix.md 必须包含
+## (追踪矩阵已合并至本文档末尾) 必须包含
 
 需求追踪矩阵（表格：需求ID | 业务场景 | 页面 | 字段 | 接口 | 权限 | 验收标准 | 测试用例 | 研发任务）
 
@@ -84,6 +84,6 @@
 - 评审维度：任务拆解粒度合理性、追踪矩阵完整性、任务依赖关系准确性、构建顺序一致性
 - 通过标准：总分 ≥ 75 且无严重问题
 - 不通过：根据评审意见调整研发任务，最多重试 3 轮
-- 评审结果记录到 `14-review-log.md`
+- 评审结果记录到 `10-review-log.md`
 
 外部评审通过后，全部步骤完成。

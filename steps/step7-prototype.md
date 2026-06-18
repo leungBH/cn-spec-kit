@@ -1,14 +1,14 @@
-# Step 9: 页面原型 (prototype)
+# Step 7: 页面原型 (prototype)
 
 读取页面规格模板（按行业/全局两级覆盖查找）：
 - 命中行业时 `presets/<industry>/page-spec.md`
 - 否则 `templates/page-spec.md`
 
-读取 `04-prd.md`、`07-business-flow.md`、`06-dependency-dag.md` 和 `05-scope-selection.md` 获取功能、流程和依赖信息。
+读取 `04-prd.md` 和 `05-flow.md` 获取功能、流程和依赖信息。
 
 只对选定优先级的功能生成详细页面规格和 HTML 原型。
 
-生成 `08-page-spec.md`（页面规格文档）。
+生成 `06-prototype.md`（页面规格文档）。
 
 ---
 
@@ -350,7 +350,7 @@ AI 与高可用（5）
 
 4. **HTML 低保真原型**：按角色视图生成入口文件
 
-   创建 `specs/<序号-功能名>/09-html-prototype/` 目录。
+   创建 `specs/<序号-功能名>/06-html-prototype/` 目录。
 
    **🟢 页面文件命名**：
 
@@ -736,16 +736,16 @@ document.querySelectorAll('th.sortable').forEach(th => {
 **自动化验证（推荐）**：
 - 直接调用 `references/prototype-validator.py` 跑 **13 项硬性约束**自检（C1–C13）：
   ```bash
-  python references/prototype-validator.py --dir 09-html-prototype/
+  python references/prototype-validator.py --dir 06-html-prototype/
   ```
 - 13 项检查覆盖：① common.css 引用 ② common.js 引用 ③ 菜单项 ≤ 25 ④ 侧边栏无 Emoji ⑤ 业务组件类名 ⑥ .filter 筛选条 ⑦ .tabs 复杂页 ⑧ 无外部 CDN ⑨ 标准侧边栏结构 ⑩ 顶部 header 结构 ⑪ page-head 标题区 ⑫ 菜单项 icon ⑬ user-area 用户区
 - 脚本会逐文件输出 13 项 ✅/❌ 状态 + 修复建议，**通过 = 内部门禁本节视为通过**
-- 单文件验证：`python references/prototype-validator.py 09-html-prototype/keyframe.html`
+- 单文件验证：`python references/prototype-validator.py 06-html-prototype/keyframe.html`
 - 脚本退出码 0=通过，1=失败（适合 CI 集成）
 
 ---
 
-## 人类QA确认（Step 9 必走门）
+## 人类QA确认（Step 7 必走门）
 
 **完成内部门禁 + 外部评审后，必须暂停等待人类确认。**
 
@@ -756,8 +756,8 @@ document.querySelectorAll('th.sortable').forEach(th => {
 - 特别提醒：用户必须**实际打开 HTML 在浏览器中查看效果**，不能只看代码
 
 **用户选择**：
-- 用户选择"确认通过" → 记录确认结果到 `14-review-log.md`，进入 Step 10
-- 用户选择"需要修改" → 根据用户反馈修改 `08-page-spec.md` 和对应 HTML 原型，重新执行内部门禁+外部评审+人类确认（不重算重试轮次，人类确认不算在3轮重试内）
+- 用户选择"确认通过" → 记录确认结果到 `10-review-log.md`，进入 Step 8
+- 用户选择"需要修改" → 根据用户反馈修改 `06-prototype.md` 和对应 HTML 原型，重新执行内部门禁+外部评审+人类确认（不重算重试轮次，人类确认不算在3轮重试内）
 - 用户未回应时 → **不能自动进入下一步**，必须等待
 
 外部评审通过后，才能触发人类QA确认。

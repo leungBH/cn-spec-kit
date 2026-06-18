@@ -1,15 +1,15 @@
-# Step 11: 验收标准 (acceptance)
+# Step 9: 验收标准 (acceptance)
 
 读取验收模板（按覆盖优先级查找）：
 - 再查 `presets/<industry>/acceptance-criteria.md`
 - 最后 `templates/acceptance-criteria.md`
 
 读取 `checklists/acceptance-checklist.md` 了解验收完整性标准。
-读取 `04-prd.md`、`07-business-flow.md`、`08-page-spec.md`、`10-permission-matrix.md` 和 `05-scope-selection.md` 获取功能和流程信息。
+读取 `04-prd.md`、`05-flow.md`、`06-prototype.md` 和 `07-permission.md` 获取功能和流程信息。
 
 只对选定优先级的功能生成详细验收标准。
 
-生成 `11-acceptance.md`。
+生成 `08-acceptance.md`。
 
 ---
 
@@ -36,7 +36,7 @@
 
 ### 第一层：步骤完整性门禁
 
-读取 `checklists/acceptance-checklist.md`，逐条对照 11-acceptance.md：
+读取 `checklists/acceptance-checklist.md`，逐条对照 08-acceptance.md：
 - 覆盖率 ≥ 90%：✅ 通过
 - 覆盖率 < 70%：❌ 回到本步修补
 
@@ -47,6 +47,6 @@
 - 评审维度：验收场景覆盖度、边界条件充分度、权限验收完备性、非功能验收合理性、数据口径验收准确性
 - 通过标准：总分 ≥ 75 且无严重问题
 - 不通过：根据评审意见补充验收标准，最多重试 3 轮
-- 评审结果记录到 `14-review-log.md`
+- 评审结果记录到 `10-review-log.md`
 
-外部评审通过后，才能进入 Step 12。
+外部评审通过后，才能进入 Step 10。

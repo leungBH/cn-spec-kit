@@ -1,15 +1,15 @@
-# Step 10: 权限矩阵 (permission)
+# Step 8: 权限矩阵 (permission)
 
 读取权限模板（按覆盖优先级查找）：
 - 再查 `presets/<industry>/permission-matrix.md`
 - 最后 `templates/permission-matrix.md`
 
 读取 `references/permission-patterns.md` 了解 ToB 权限模式。
-读取 `04-prd.md` 和 `05-scope-selection.md` 获取角色定义和功能清单。
+读取 `04-prd.md` 获取角色定义和功能清单（含开发范围决策）。
 
 只对选定优先级的功能生成详细权限矩阵。未选定功能简要标注。
 
-生成 `10-permission-matrix.md`。
+生成 `07-permission.md`。
 
 ---
 
@@ -33,7 +33,7 @@
 
 ### 第一层：步骤完整性门禁
 
-读取 `checklists/permission-checklist.md`，逐条对照 10-permission-matrix.md：
+读取 `checklists/permission-checklist.md`，逐条对照 07-permission.md：
 - 覆盖率 ≥ 90%：✅ 通过
 - 覆盖率 < 70%：❌ 回到本步修补
 
@@ -44,6 +44,6 @@
 - 评审维度：权限矩阵完备性、操作覆盖度、角色定义合理性、数据权限规则清晰度、特殊权限说明完整性
 - 通过标准：总分 ≥ 75 且无严重问题
 - 不通过：根据评审意见修补权限矩阵，最多重试 3 轮
-- 评审结果记录到 `14-review-log.md`
+- 评审结果记录到 `10-review-log.md`
 
-外部评审通过后，才能进入 Step 11。
+外部评审通过后，才能进入 Step 9。

@@ -15,13 +15,13 @@ Chinese ToB software teams typically face four pain points in the product spec s
 - **Hard for AI to consume**: existing documents aren't structured down to the field level, so AI coding agents don't know how to act on them.
 - **Hard to control quality**: without cross-artifact consistency checks, design gaps usually surface late in development.
 
-**cn-spec-kit** breaks this work into an 12-step standard pipeline. Each step has automated quality gates, and the **final output is an AI-friendly, structured document chain that can be fed directly into an AI coding agent**.
+**cn-spec-kit** breaks this work into an 10-step standard pipeline. Each step has automated quality gates, and the **final output is an AI-friendly, structured document chain that can be fed directly into an AI coding agent**.
 
 ---
 
 ## Core Features
 
-- **12-step standard pipeline**: input → discovery → competitive research → clarification → template selection & requirement → PRD → scope → dependency DAG → business flow → page prototype → permission matrix → acceptance criteria → dev tasks.
+- **10-step standard pipeline**: input → discovery → competitive research → clarification → template selection & requirement → PRD → scope → dependency DAG → business flow → page prototype → permission matrix → acceptance criteria → dev tasks.
 - **Three-layer automated quality gates**:
   1. **Step completeness gate** — checklist coverage ≥ 90% per step.
   2. **Cross-step consistency check** — roles, states, actions, and acceptance scenarios stay consistent across artifacts.
@@ -55,7 +55,7 @@ Chinese ToB software teams typically face four pain points in the product spec s
    the customer wants contract drafting, approval, archiving, ledger, and renewal reminders.
    ```
 
-3. The AI Agent runs the 12-step pipeline automatically, producing Markdown documents at each step and running quality gates.
+3. The AI Agent runs the 10-step pipeline automatically, producing Markdown documents at each step and running quality gates.
 
 ### Use a single step in isolation
 
@@ -71,25 +71,21 @@ See the "Usage Modes" section in [`SKILL.md`](./SKILL.md) for details.
 
 ## Output Example
 
-After running the full pipeline, 15 structured documents are produced under `specs/<seq-feature-name>/`:
+After running the full pipeline, 10 structured documents are produced under `specs/<seq-feature-name>/`:
 
 | Artifact | File | Purpose |
 |----------|------|---------|
-| Brief | `00-brief.md` | Original one-sentence requirement |
-| Discovery | `01-discovery.md` | Customer context and business problem |
+| Discovery | `01-discovery.md` | Original requirement + customer context + business problem + clarifications |
 | Competitive research | `02-competitive-research.md` | Competitor feature borrowing & gap analysis |
 | Requirement doc | `03-requirement.md` | Formal requirement doc by selected template |
-| PRD | `04-prd.md` | Product requirements document |
-| Scope selection | `05-scope-selection.md` | User-confirmed priority scope |
-| Dependency DAG | `06-dependency-dag.md` | Inter-module dependency graph |
-| Business flow | `07-business-flow.md` | State flow + approval flow |
-| Page spec | `08-page-spec.md` | Page list + per-page detailed spec |
-| HTML prototype | `09-html-prototype/` | Low-fidelity prototype (open in browser) |
-| Permission matrix | `10-permission-matrix.md` | Role × feature permissions |
-| Acceptance criteria | `11-acceptance.md` | Normal + abnormal + edge acceptance |
-| Dev tasks | `12-dev-tasks.md` | Frontend / Backend / Test task breakdown |
-| Traceability matrix | `13-traceability-matrix.md` | Requirement → artifact full-chain traceability |
-| Review log | `14-review-log.md` | End-to-end review record |
+| PRD | `04-prd.md` | Product requirements document (with scope decision) |
+| Business flow | `05-flow.md` | Dependency DAG + state flow + approval flow |
+| Page spec | `06-prototype.md` | Page list + per-page detailed spec |
+| HTML prototype | `06-html-prototype/` | Low-fidelity prototype (open in browser) |
+| Permission matrix | `07-permission.md` | Role × feature permissions |
+| Acceptance criteria | `08-acceptance.md` | Normal + abnormal + edge acceptance |
+| Dev tasks | `09-dev-tasks.md` | Frontend / Backend / Test task breakdown + traceability matrix |
+| Review log | `10-review-log.md` | End-to-end review record |
 
 ---
 
@@ -103,8 +99,8 @@ cn-spec-kit/
 │   ├── permission-checklist.md
 │   ├── prd-checklist.md
 │   └── requirement-checklist.md
-├── steps/                         # 12-step execution logic
-│   ├── step1-input.md ~ step12-tasks.md
+├── steps/                         # 10-step execution logic
+│   ├── step1-input.md ~ step10-tasks.md
 │   ├── consistency-checks.md      # Cross-step consistency rules
 │   └── external-review.md         # External LLM review mechanism
 ├── templates/                     # Global default templates
@@ -155,13 +151,13 @@ cn-spec-kit supports plugging in an external LLM as a reviewer that audits desig
 
 **Configuration**: write your external LLM config to `.cn-spec-kit-llm.json` (already in `.gitignore` — **do not commit it**). See [`references/external-llm-config.md`](./references/external-llm-config.md) and [`references/.cn-spec-kit-llm.example.json`](./references/.cn-spec-kit-llm.example.json).
 
-**Review results** are recorded in `14-review-log.md` for full traceability.
+**Review results** are recorded in `10-review-log.md` for full traceability.
 
 ---
 
 ## Roadmap
 
-- [x] 12-step main pipeline + two-layer quality gates
+- [x] 10-step main pipeline + two-layer quality gates
 - [x] External LLM review mechanism
 - [x] Template override (industry / global)
 - [x] Industry presets (manufacturing / fintech / education)
