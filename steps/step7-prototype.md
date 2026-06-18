@@ -279,6 +279,54 @@
 | 16 | **菜单点击不跳转**（侧边栏菜单项点击不切换页面/不激活当前项） | 🔴 阻塞 |
 | 17 | **tab/抽屉/弹窗/筛选/排序 5 种核心交互未全部实现** | 🔴 阻塞 |
 | 18 | **页面缺少真实导航入口**（当前页面无法从首页/侧边栏/其他页面跳入） | 🔴 阻塞 |
+| 19 | **链接目标页面不存在**（`href` 或 `onclick` 跳转到未生成的 HTML，点击 404） | 🔴 阻塞 |
+| 20 | **跨端跳转**（移动端 H5 跳 PC 后台、或 PC 后台跳移动端 H5，违反端隔离） | 🔴 阻塞 |
+| 21 | **未实现页面未视觉标注**（侧边栏/菜单/面包屑出现链接但目标不存在，且没用 disabled/灰色 + Toast 提示） | 🔴 阻塞 |
+
+---
+
+## 🚨 端隔离与页面清单硬性约束（违反必须重做）
+
+> **本章节与上方"反模式 19/20/21"配套**，讲清楚为什么不能乱跳。
+
+### A. 端隔离原则
+
+ToB 产品的"端"必须明确分离，不同端只展示对应角色的功能：
+
+| 端 | 用户 | 可见功能 | 禁止 |
+|----|------|----------|------|
+| 移动端 H5 | 员工 | 打卡、申请（请假/补卡/加班）、查看自己的考勤 | 跳 PC 后台、看他人考勤、做审批 |
+| PC 后台 | 管理者 / HR | 审批、报表、员工/部门/班次管理 | 跳移动端 H5、替员工打卡 |
+| 外部门户 | 客户 / 代理商 | 自己业务数据 | 跳管理后台 |
+
+**判别标准**：菜单项 / 按钮 / 链接的跳转目标必须属于同一个端；跨端跳转一律禁止，应改为 Toast 提示"请在 X 端使用"或端内抽屉/弹窗。
+
+### B. 页面清单声明原则
+
+**生成 HTML 之前必须先输出"页面清单总览表"**（参考下方"页面规格文档必须包含 → 1"），明确：
+- 哪些页面**要生成 HTML**（P0/P1 核心页）
+- 哪些页面**只占位不实现**（P2/二期页面）
+
+**已生成 HTML 的页面** → 侧边栏/菜单/面包屑可以出现链接
+**未生成 HTML 的页面** → 三种合法处理：
+1. **删除链接**（最干净，demo 阶段推荐）
+2. **`<span class="menu-item disabled">`** + `onclick="showToast('功能规划中，原型未演示')"`（保留导航结构示意）
+3. **纯文字说明**（如底部"📋 完整功能清单见 `06-prototype.md`"）
+
+**禁止**：写了 `<a href="xxx.html">` 但没生成 `xxx.html` 文件（点击 404）
+
+### C. 快速自检命令
+
+```bash
+# 列出所有 .html 实际生成的文件
+ls demo/<project>/06-html-prototype/*.html
+
+# 提取所有 href/onclick 跳转目标
+grep -oE '(href="[a-z][a-z\-]+\.html")|(nav\([^,]+,\s*'\''([^'\'']+)'\''\))' demo/<project>/06-html-prototype/*.html | sort -u
+
+# 验证每个目标都有对应文件（输出空=通过）
+comm -23 <(grep -hoE '[a-z][a-z\-]+\.html' demo/<project>/06-html-prototype/*.html | sort -u) <(ls demo/<project>/06-html-prototype/*.html | xargs -n1 basename | sort -u)
+```
 
 ---
 
@@ -513,10 +561,13 @@ AI 与高可用（5）
 | 6 | **复杂页有 `.tabs` ≥ 3 个** | 至少 3 个 `.tab` 配对应数量的 `.tab-pane` | 加 tab，或确认页面不复杂可不用 |
 | 7 | **未引入外部框架** | 没有 Tailwind / Element Plus / Element UI / Ant Design CDN | 删除所有 CDN 引用 |
 | 8 | **`<style>` 内有 `:root` CSS 变量** | 内联 style 块中包含 `--primary: #1e6fff;` 等变量定义 | 在 style 开头补上 |
+| 9 | **所有 `href` 目标文件已生成** | `ls *.html` 包含所有链接目标 | 不存在的目标改为 `<span class="menu-item disabled">` + Toast 提示，或直接删除 |
+| 10 | **无跨端跳转** | 移动端 H5 不出现 `approve.html`/`report.html` 等 PC 后台链接；PC 后台不出现 `index.html`（H5） | 改为端内抽屉 / 弹窗 / Toast 提示"请在 X 端使用" |
+| 11 | **未实现菜单视觉标注** | 未生成 HTML 的菜单项必须有 `disabled` 类 + 灰色 + Toast | 补 `class="menu-item disabled"` + `onclick="return showToast('功能规划中')"` |
 
 **自检失败处理**：
 - 自检未通过 → **必须当场修复并重新输出**，不允许写"已知问题，后续优化"等推诿
-- 修复后再自检 → 8 项全过 → 才能输出"✅ 页面 X 已生成"
+- 修复后再自检 → 11 项全过 → 才能输出"✅ 页面 X 已生成"
 
 **自检方法（可调用工具验证）**：
 ```bash
@@ -534,6 +585,24 @@ grep -E "class=\"(my-|custom-|local-)" <file>.html  # 应无输出
 
 # 5. 验证没有外部框架
 grep -E "tailwindcss|element-plus|antd|element-ui" <file>.html  # 应无输出
+
+# 6. 验证所有 href 目标文件已生成（输出空=通过）
+comm -23 \
+  <(grep -hoE '[a-z][a-z\-]+\.html' demo/<project>/06-html-prototype/*.html | sort -u) \
+  <(ls demo/<project>/06-html-prototype/*.html | xargs -n1 basename | sort -u)
+
+# 7. 验证无跨端跳转（移动端 H5 文件中不应出现 PC 后台链接）
+[ ! -f demo/<project>/06-html-prototype/index.html ] || \
+  grep -E "approve\.html|report\.html|dashboard\.html" demo/<project>/06-html-prototype/index.html  # 应无输出
+
+# 8. 验证未实现菜单有 disabled 类
+grep -E 'class="menu-item"[^>]*href="[a-z][a-z\-]+\.html"' demo/<project>/06-html-prototype/*.html | while read line; do
+  href=$(echo "$line" | grep -oE 'href="[^"]+"' | head -1)
+  file=$(echo "$href" | sed 's/href="//;s/"//')
+  if [ ! -f "demo/<project>/06-html-prototype/$file" ]; then
+    echo "❌ $line"
+  fi
+done
 ```
 
 ---

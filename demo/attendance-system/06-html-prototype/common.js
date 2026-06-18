@@ -170,3 +170,18 @@ document.addEventListener('DOMContentLoaded', () => {
   initFilter();
   initMenu();
 });
+
+// ===== 9. 目标文件白名单（防 404 + 防跨端跳转）=====
+// 列出当前 demo 实际已生成的所有 HTML 文件。
+// 跳转目标不在白名单内 → 只 Toast 提示，不真正跳转。
+// 注意：端隔离靠各 HTML 的 nav 函数只调用本端目标来保证（白名单只是兜底）。
+const ALLOWED_HTML = ['index.html', 'approve.html', 'report.html'];
+
+// 提供给各 HTML 内联 nav/handleNav 函数调用
+window.checkNavTarget = function(target) {
+  if (ALLOWED_HTML.indexOf(target) === -1) {
+    const name = target.replace(/\.html$/i, '').replace(/-/g, '·');
+    return { ok: false, msg: '「' + name + '」功能规划中，原型未演示' };
+  }
+  return { ok: true };
+};

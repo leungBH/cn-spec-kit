@@ -30,27 +30,27 @@
       <div class="sidebar-logo">▣ 考勤管理系统</div>
       <nav class="menu">
         <div class="menu-group-title">工作台</div>
-        <a class="menu-item" href="dashboard.html" onclick="return nav(event, 'dashboard.html')"><span class="icon">⌂</span>概览</a>
+        <span class="menu-item disabled" onclick="return showToast('「概览」功能规划中，原型未演示')"><span class="icon">⌂</span>概览</span>
         <div class="menu-group-title">考勤</div>
-        <a class="menu-item" href="index.html" onclick="return nav(event, 'index.html')"><span class="icon">▦</span>员工打卡</a>
+        <span class="menu-item disabled" onclick="return showToast('员工打卡请使用移动端 H5')"><span class="icon">▦</span>员工打卡</span>
         <a class="menu-item" href="approve.html" onclick="return nav(event, 'approve.html')"><span class="icon">▣</span>请假审批 <span style="float:right;background:#ff4d4f;color:#fff;border-radius:8px;padding:0 6px;font-size:11px;">5</span></a>
-        <a class="menu-item" href="approve-repair.html" onclick="return nav(event, 'approve-repair.html')"><span class="icon">▤</span>补卡审批 <span style="float:right;background:#faad14;color:#fff;border-radius:8px;padding:0 6px;font-size:11px;">3</span></a>
-        <a class="menu-item" href="approve-overtime.html" onclick="return nav(event, 'approve-overtime.html')"><span class="icon">▥</span>加班审批 <span style="float:right;background:#52c41a;color:#fff;border-radius:8px;padding:0 6px;font-size:11px;">2</span></a>
+        <span class="menu-item disabled" onclick="return showToast('「补卡审批」功能规划中，原型未演示')"><span class="icon">▤</span>补卡审批 <span style="float:right;background:#faad14;color:#fff;border-radius:8px;padding:0 6px;font-size:11px;">3</span></span>
+        <span class="menu-item disabled" onclick="return showToast('「加班审批」功能规划中，原型未演示')"><span class="icon">▥</span>加班审批 <span style="float:right;background:#52c41a;color:#fff;border-radius:8px;padding:0 6px;font-size:11px;">2</span></span>
         <div class="menu-group-title">报表</div>
         <a class="menu-item active" href="report.html" onclick="return nav(event, 'report.html')"><span class="icon">▧</span>部门报表</a>
-        <a class="menu-item" href="report-company.html" onclick="return nav(event, 'report-company.html')"><span class="icon">▨</span>全公司报表</a>
+        <span class="menu-item disabled" onclick="return showToast('「全公司报表」功能规划中，原型未演示')"><span class="icon">▨</span>全公司报表</span>
         <div class="menu-group-title">基础数据</div>
-        <a class="menu-item" href="admin-employee.html" onclick="return nav(event, 'admin-employee.html')"><span class="icon">▩</span>员工管理</a>
-        <a class="menu-item" href="admin-dept.html" onclick="return nav(event, 'admin-dept.html')"><span class="icon">▪</span>部门管理</a>
-        <a class="menu-item" href="admin-shift.html" onclick="return nav(event, 'admin-shift.html')"><span class="icon">▫</span>班次管理</a>
+        <span class="menu-item disabled" onclick="return showToast('「员工管理」功能规划中，原型未演示')"><span class="icon">▩</span>员工管理</span>
+        <span class="menu-item disabled" onclick="return showToast('「部门管理」功能规划中，原型未演示')"><span class="icon">▪</span>部门管理</span>
+        <span class="menu-item disabled" onclick="return showToast('「班次管理」功能规划中，原型未演示')"><span class="icon">▫</span>班次管理</span>
       </nav>
     </aside>
     <div class="main">
       <header class="header">
         <div class="crumbs">
-          <a href="dashboard.html" onclick="return nav(event, 'dashboard.html')">工作台</a>
+          <span style="color:var(--text-sub);cursor:default;">工作台</span>
           <span class="sep">/</span>
-          <a href="report.html" onclick="return nav(event, 'report.html')">报表</a>
+          <span>报表</span>
           <span class="sep">/</span>
           <span>部门报表</span>
         </div>
@@ -351,9 +351,17 @@
   </div>
 
   <script>
-    // 导航
+    // 导航（PC 后台）：先校验白名单 + 端隔离（不跳移动端 H5）
     function nav(e, target) {
       e.preventDefault();
+      const check = window.checkNavTarget ? window.checkNavTarget(target) : { ok: true };
+      if (!check.ok) { showToast(check.msg); return false; }
+      // 端隔离：PC 后台不跳移动端 H5
+      const mobilePages = ['index.html'];
+      if (mobilePages.indexOf(target) > -1) {
+        showToast('「' + target.replace('.html','') + '」是移动端 H5，请用手机访问');
+        return false;
+      }
       showToast('正在跳转到 ' + target);
       setTimeout(() => { window.location.href = target; }, 300);
       return false;

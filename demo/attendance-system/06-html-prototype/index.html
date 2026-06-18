@@ -43,7 +43,7 @@
   <div class="phone-frame">
     <div class="header-mobile">
       <h1>考勤打卡</h1>
-      <a href="approve.html" onclick="return handleNav(event, 'approve.html')">▣ 审批端</a>
+      <span style="font-size:12px;opacity:0.85;">员工端（移动 H5）</span>
     </div>
     <div class="datetime">
       <div class="date" id="date">2026-06-18 星期四</div>
@@ -88,7 +88,7 @@
         <span class="qa-icon">▥</span>
         <span>加班申请</span>
       </a>
-      <a href="report.html" onclick="return handleNav(event, 'report.html')">
+      <a href="#" onclick="event.preventDefault(); openMyAttendance(); return false;">
         <span class="qa-icon">▧</span>
         <span>我的考勤</span>
       </a>
@@ -97,7 +97,7 @@
     <div class="footer-bar">
       <a href="index.html" class="active"><span class="fi">⌂</span>首页</a>
       <a href="#" onclick="event.preventDefault(); openLeave(); return false;"><span class="fi">▦</span>申请</a>
-      <a href="report.html" onclick="return handleNav(event, 'report.html')"><span class="fi">▧</span>报表</a>
+      <a href="#" onclick="event.preventDefault(); openMyAttendance(); return false;"><span class="fi">▧</span>报表</a>
       <a href="#" onclick="event.preventDefault(); showToast('个人中心 - 演示'); return false;"><span class="fi">●</span>我的</a>
     </div>
   </div>
@@ -121,6 +121,46 @@
     </div>
   </div>
 
+  <!-- 我的考勤弹窗（端内显示，不跳 PC） -->
+  <div class="modal-mask" id="myAttModal">
+    <div class="modal" style="max-width: 480px;">
+      <div class="modal-head">▧ 我的考勤 <span style="font-size:12px;color:var(--text-sub);font-weight:normal;margin-left:8px;">2026-06</span></div>
+      <div class="modal-body" style="padding:0;">
+        <div style="padding:14px 18px;background:#f5f6f9;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center;">
+          <div><div style="color:var(--text-sub);font-size:11px;">出勤</div><div style="font-size:18px;font-weight:600;color:var(--success);">17</div></div>
+          <div><div style="color:var(--text-sub);font-size:11px;">迟到</div><div style="font-size:18px;font-weight:600;color:var(--danger);">1</div></div>
+          <div><div style="color:var(--text-sub);font-size:11px;">请假</div><div style="font-size:18px;font-weight:600;color:var(--warning);">1</div></div>
+          <div><div style="color:var(--text-sub);font-size:11px;">加班</div><div style="font-size:18px;font-weight:600;color:var(--primary);">4h</div></div>
+        </div>
+        <div style="max-height:280px;overflow:auto;">
+          <table class="table" style="width:100%;font-size:13px;">
+            <thead>
+              <tr style="background:#fafbfc;">
+                <th style="padding:8px 14px;text-align:left;color:var(--text-sub);font-weight:500;">日期</th>
+                <th style="padding:8px 14px;text-align:left;color:var(--text-sub);font-weight:500;">上班</th>
+                <th style="padding:8px 14px;text-align:left;color:var(--text-sub);font-weight:500;">下班</th>
+                <th style="padding:8px 14px;text-align:left;color:var(--text-sub);font-weight:500;">状态</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="padding:8px 14px;">06-18</td><td style="padding:8px 14px;">08:01</td><td style="padding:8px 14px;">--</td><td style="padding:8px 14px;"><span class="tag tag-green">正常</span></td></tr>
+              <tr><td style="padding:8px 14px;">06-17</td><td style="padding:8px 14px;">08:25</td><td style="padding:8px 14px;">18:30</td><td style="padding:8px 14px;"><span class="tag tag-orange">迟到</span></td></tr>
+              <tr><td style="padding:8px 14px;">06-16</td><td style="padding:8px 14px;">--</td><td style="padding:8px 14px;">--</td><td style="padding:8px 14px;"><span class="tag tag-blue">请假</span></td></tr>
+              <tr><td style="padding:8px 14px;">06-15</td><td style="padding:8px 14px;">07:55</td><td style="padding:8px 14px;">19:30</td><td style="padding:8px 14px;"><span class="tag tag-green">正常+加班</span></td></tr>
+              <tr><td style="padding:8px 14px;">06-12</td><td style="padding:8px 14px;">08:02</td><td style="padding:8px 14px;">18:05</td><td style="padding:8px 14px;"><span class="tag tag-green">正常</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="padding:10px 18px;background:#fafbfc;color:var(--text-sub);font-size:12px;border-top:1px solid var(--border);">
+          💡 部门/公司统计报表请在 PC 后台查看
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-primary" onclick="closeModal('myAttModal')">关闭</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // 实时更新时间
     function updateTime() {
@@ -134,9 +174,17 @@
     updateTime();
     setInterval(updateTime, 1000);
 
-    // 跨页面导航（演示用）
+    // 跨页面导航（演示用）：先校验目标白名单，避免跳 404 / 跨端跳转
     function handleNav(e, target) {
       e.preventDefault();
+      const check = window.checkNavTarget ? window.checkNavTarget(target) : { ok: true };
+      if (!check.ok) { showToast(check.msg); return false; }
+      // 端隔离：移动端不跳 PC 后台
+      const pcPages = ['approve.html', 'report.html', 'dashboard.html'];
+      if (pcPages.indexOf(target) > -1) {
+        showToast('「' + target.replace('.html','') + '」请在 PC 后台打开');
+        return false;
+      }
       showToast('正在跳转到 ' + target);
       setTimeout(() => { window.location.href = target; }, 400);
       return false;
@@ -182,6 +230,9 @@
     function openLeave() { showToast('正在打开请假申请...'); setTimeout(() => showToast('（演示）请假申请表单'), 600); }
     function openRepair() { showToast('正在打开补卡申请...'); setTimeout(() => showToast('（演示）补卡申请表单'), 600); }
     function openOvertime() { showToast('正在打开加班申请...'); setTimeout(() => showToast('（演示）加班申请表单'), 600); }
+
+    // 我的考勤（端内弹窗，不跳 PC 后台）
+    function openMyAttendance() { openModal('myAttModal'); }
   </script>
 </body>
 </html>

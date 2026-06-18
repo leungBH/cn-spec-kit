@@ -31,6 +31,9 @@ body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
 .menu-item .icon { display: inline-block; width: 18px; margin-right: 8px; }
 .menu-item:hover { background: #1f3a5f; color: #fff; }
 .menu-item.active { background: var(--sidebar-active); color: #fff; }
+.menu-item.disabled { color: #4a5a6f; cursor: not-allowed; opacity: 0.55; }
+.menu-item.disabled:hover { background: transparent; color: #4a5a6f; }
+.menu-item.disabled .icon { opacity: 0.5; }
 
 /* 主内容区 */
 .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
