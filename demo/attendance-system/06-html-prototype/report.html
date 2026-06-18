@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>部门考勤报表 - cn-spec-kit Demo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f2f5; }
+    .layout { display: flex; min-height: 100vh; }
+    .sidebar { width: 220px; background: #001529; color: #fff; padding: 20px 0; }
+    .sidebar .logo { padding: 0 20px 20px; font-size: 18px; font-weight: 500; border-bottom: 1px solid #1f3a5f; }
+    .menu-item { padding: 12px 20px; cursor: pointer; color: #b3c0cc; }
+    .menu-item.active { background: #1890ff; color: #fff; }
+    .main { flex: 1; padding: 20px; }
+    .header { background: #fff; padding: 16px 24px; border-radius: 4px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+    .header h1 { font-size: 20px; }
+    .filters { background: #fff; padding: 16px 24px; border-radius: 4px; margin-bottom: 16px; display: flex; gap: 12px; align-items: center; }
+    .filters select, .filters button { padding: 6px 16px; border: 1px solid #d9d9d9; border-radius: 4px; background: #fff; cursor: pointer; }
+    .filters button.primary { background: #1890ff; color: #fff; border-color: #1890ff; }
+    .overview { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px; }
+    .stat-card { background: #fff; padding: 20px; border-radius: 4px; text-align: center; }
+    .stat-card .num { font-size: 32px; font-weight: 600; color: #1890ff; }
+    .stat-card .label { color: #999; font-size: 14px; margin-top: 8px; }
+    .table-card { background: #fff; border-radius: 4px; padding: 24px; }
+    .table-card h2 { margin-bottom: 16px; font-size: 16px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #f0f0f0; }
+    th { background: #fafafa; color: #666; font-weight: 500; }
+    tr:hover { background: #fafafa; }
+    .demo-tag { padding: 20px; text-align: center; color: #999; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <div class="sidebar">
+      <div class="logo">考勤管理系统</div>
+      <div class="menu-item">工作台</div>
+      <div class="menu-item">员工打卡</div>
+      <div class="menu-item">请假审批</div>
+      <div class="menu-item">考勤报表</div>
+      <div class="menu-item active">部门报表</div>
+      <div class="menu-item">基础数据</div>
+    </div>
+    <div class="main">
+      <div class="header">
+        <h1>部门考勤报表</h1>
+        <div>👤 张经理（研发部负责人）</div>
+      </div>
+      <div class="filters">
+        <span>月份:</span>
+        <select><option>2026-06</option><option>2026-05</option></select>
+        <span>部门:</span>
+        <select><option>研发部</option><option>市场部</option></select>
+        <button class="primary">导出 Excel</button>
+        <button>导出 PDF</button>
+      </div>
+      <div class="overview">
+        <div class="stat-card"><div class="num">30</div><div class="label">应到人数</div></div>
+        <div class="stat-card"><div class="num">28</div><div class="label">实到人数</div></div>
+        <div class="stat-card"><div class="num">5</div><div class="label">迟到人次</div></div>
+        <div class="stat-card"><div class="num">8</div><div class="label">请假天数</div></div>
+      </div>
+      <div class="table-card">
+        <h2>员工明细</h2>
+        <table>
+          <thead>
+            <tr><th>员工</th><th>工号</th><th>出勤</th><th>迟到</th><th>早退</th><th>请假</th><th>加班(h)</th><th>调休余额(天)</th><th>操作</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>张三</td><td>EMP001</td><td>22</td><td>0</td><td>0</td><td>0</td><td>4</td><td>2.0</td><td><a href="#">详情</a></td></tr>
+            <tr><td>李四</td><td>EMP002</td><td>20</td><td>1</td><td>0</td><td>2天</td><td>0</td><td>0.5</td><td><a href="#">详情</a></td></tr>
+            <tr><td>王五</td><td>EMP003</td><td>21</td><td>0</td><td>0</td><td>1天</td><td>2</td><td>1.0</td><td><a href="#">详情</a></td></tr>
+            <tr><td>赵六</td><td>EMP004</td><td>22</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td><a href="#">详情</a></td></tr>
+            <tr><td>钱七</td><td>EMP005</td><td>19</td><td>2</td><td>1</td><td>0</td><td>0</td><td>0</td><td><a href="#">详情</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="demo-tag">cn-spec-kit Demo · 考勤管理系统 · Page P11</div>
+    </div>
+  </div>
+</body>
+</html>

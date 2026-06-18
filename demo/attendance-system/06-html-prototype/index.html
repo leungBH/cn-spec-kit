@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>考勤打卡 - cn-spec-kit Demo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f6f9; min-height: 100vh; padding: 20px; }
+    .phone { max-width: 400px; margin: 0 auto; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+    .header { background: linear-gradient(135deg, #4f7cff, #6fa1ff); color: #fff; padding: 20px; text-align: center; }
+    .header h1 { font-size: 18px; font-weight: 500; }
+    .datetime { padding: 30px 20px; text-align: center; background: #fff; }
+    .date { font-size: 16px; color: #666; margin-bottom: 10px; }
+    .time { font-size: 48px; font-weight: 600; color: #333; letter-spacing: 2px; }
+    .location { margin: 20px; padding: 16px; background: #f0f9ff; border-radius: 8px; border-left: 4px solid #4f7cff; }
+    .location .name { font-size: 16px; color: #333; margin-bottom: 4px; }
+    .location .status { font-size: 14px; color: #10b981; }
+    .status-list { margin: 0 20px 20px; }
+    .status-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #fafbfc; border-radius: 6px; margin-bottom: 8px; }
+    .status-item .label { color: #666; }
+    .status-item .value { font-weight: 500; }
+    .status-item.normal .value { color: #10b981; }
+    .status-item.pending .value { color: #f59e0b; }
+    .btn { display: block; width: calc(100% - 40px); margin: 20px auto; padding: 16px; background: linear-gradient(135deg, #4f7cff, #6fa1ff); color: #fff; text-align: center; border-radius: 8px; font-size: 16px; font-weight: 500; cursor: pointer; border: none; }
+    .btn.disabled { background: #ccc; cursor: not-allowed; }
+    .demo-tag { text-align: center; padding: 20px; color: #999; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <div class="header"><h1>考勤打卡</h1></div>
+    <div class="datetime">
+      <div class="date" id="date">2026-06-18 星期四</div>
+      <div class="time" id="time">08:25:30</div>
+    </div>
+    <div class="location">
+      <div class="name">📍 总厂区 A 区</div>
+      <div class="status">在打卡范围内 ✓</div>
+    </div>
+    <div class="status-list">
+      <div class="status-item normal">
+        <span class="label">上班卡</span>
+        <span class="value">✅ 08:01 (正常)</span>
+      </div>
+      <div class="status-item pending">
+        <span class="label">午休出</span>
+        <span class="value">⏳ 待打卡</span>
+      </div>
+      <div class="status-item pending">
+        <span class="label">午休入</span>
+        <span class="value">⏳ 待打卡</span>
+      </div>
+      <div class="status-item pending">
+        <span class="label">下班卡</span>
+        <span class="value">⏳ 待打卡</span>
+      </div>
+    </div>
+    <button class="btn">📷 拍照并打卡</button>
+    <div class="demo-tag">cn-spec-kit Demo · 考勤管理系统 · Page P1</div>
+  </div>
+  <script>
+    function updateTime() {
+      const now = new Date();
+      const week = ['日','一','二','三','四','五','六'][now.getDay()];
+      const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} 星期${week}`;
+      const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+      document.getElementById('date').textContent = dateStr;
+      document.getElementById('time').textContent = timeStr;
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+  </script>
+</body>
+</html>
